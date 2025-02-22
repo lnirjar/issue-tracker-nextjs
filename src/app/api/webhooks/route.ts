@@ -72,13 +72,11 @@ export async function POST(req: Request) {
   }
 
   // Do something with payload
-  // For this guide, log payload to console
   const webhookId = evt.data.id;
   const eventType = evt.type;
   console.log(
     `Received webhook with ID ${webhookId} and event type of ${eventType}`
   );
-  // console.log("Webhook payload:", body);
 
   const {
     id,
