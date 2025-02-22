@@ -1,10 +1,24 @@
-import { Button } from "@/components/ui/button";
+import { Metadata } from "next";
+import { auth } from "@clerk/nextjs/server";
 
-export default function Home() {
-  return (
-    <div>
-      <h1 className="text-6xl font-bold">Hello</h1>
-      <Button variant="destructive">Click me</Button>
-    </div>
-  );
+import { DashboardPage } from "@/components/dashboard-page";
+import { LandingPage } from "@/components/landing-page";
+import { APP_NAME } from "@/lib/constants";
+
+export const generateMetadata = async (): Promise<Metadata> => {
+  const { userId } = await auth();
+
+  if (!userId) {
+    return {};
+  }
+
+  return {
+    title: `Dashboard | ${APP_NAME}`,
+  };
+};
+
+export default async function Home() {
+  const { userId } = await auth();
+
+  return userId ? <DashboardPage /> : <LandingPage />;
 }
