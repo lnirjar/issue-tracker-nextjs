@@ -26,4 +26,8 @@ export type User = InferSchemaType<typeof userSchema> & {
   _id: mongoose.Types.ObjectId;
 };
 
-export const User = mongoose.models.User ?? mongoose.model("User", userSchema);
+export const User =
+  (mongoose.models.User as mongoose.Model<User>) ??
+  mongoose.model("User", userSchema);
+
+export const USER_SELECT_ALL_FIELDS = "+email";
