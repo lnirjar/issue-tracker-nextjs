@@ -36,7 +36,8 @@ export const updateUser = async ({
 
   return User.findOneAndUpdate(
     { clerkId },
-    { name, email, username, avatar }
+    { name, email, username, avatar },
+    { upsert: true, new: true, setDefaultsOnInsert: true }
   ).exec();
 };
 
