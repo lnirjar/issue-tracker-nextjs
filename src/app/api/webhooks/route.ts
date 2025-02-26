@@ -72,11 +72,7 @@ export async function POST(req: Request) {
   }
 
   // Do something with payload
-  const webhookId = evt.data.id;
   const eventType = evt.type;
-  console.log(
-    `Received webhook with ID ${webhookId} and event type of ${eventType}`
-  );
 
   const {
     id,
@@ -97,8 +93,6 @@ export async function POST(req: Request) {
   const name = `${first_name} ${last_name}`;
   const email = primaryEmailAddress ?? "";
   const avatar = profile_image_url;
-
-  console.log({ clerkId, name, email, avatar, username });
 
   if (eventType === CLERK_USER_CREATED) {
     await userUtils.createUser({
