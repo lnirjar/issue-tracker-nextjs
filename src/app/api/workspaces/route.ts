@@ -1,6 +1,7 @@
-import { getCurrentUser } from "@/lib/user";
 import { Workspace } from "@/models/workspace";
 import { createWorkspaceFormSchema } from "@/schemas/workspace";
+import { getCurrentUser } from "@/lib/user";
+import { uploadWorkspaceAvatarToCloudinary } from "@/lib/cloudinary";
 import { AUTH_REQUIRED_MESSAGE, UNKNOWN_ERROR_MESSAGE } from "@/lib/constants";
 
 export async function POST(request: Request) {
@@ -11,7 +12,12 @@ export async function POST(request: Request) {
       return Response.json({ message: AUTH_REQUIRED_MESSAGE }, { status: 401 });
     }
 
-    const data = await request.json();
+    const formData = await request.formData();
+
+    const data = {
+      name: formData.get("name") as string,
+      image: formData.get("image") as File,
+    };
 
     const parsed = createWorkspaceFormSchema.safeParse(data);
 
@@ -25,11 +31,30 @@ export async function POST(request: Request) {
       );
     }
 
-    const { name } = parsed.data;
+    const { name, image } = parsed.data;
 
     const workspace = await Workspace.create({ name, user: user._id });
 
-    return Response.json(workspace, { status: 201 });
+    if (!(image instanceof File)) {
+      return Response.json({ workspace }, { status: 201 });
+    }
+
+    const arrayBuffer = await image.arrayBuffer();
+    const buffer = Buffer.from(arrayBuffer);
+    const uploadResult = await uploadWorkspaceAvatarToCloudinary(
+      buffer,
+      workspace._id.toString()
+    );
+
+    const updatedWorkspace = await Workspace.findByIdAndUpdate(
+      workspace._id,
+      {
+        image: uploadResult.secure_url,
+      },
+      { new: true }
+    );
+
+    return Response.json({ workspace: updatedWorkspace }, { status: 201 });
   } catch (error) {
     console.error(error);
     return Response.json({ message: UNKNOWN_ERROR_MESSAGE }, { status: 500 });

@@ -1,7 +1,11 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
+import React, { useRef } from "react";
+import Image from "next/image";
 import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ImageIcon } from "lucide-react";
+import { toast } from "sonner";
 
 import {
   Card,
@@ -22,13 +26,13 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 import {
   CreateWorkspaceFormData,
   createWorkspaceFormSchema,
 } from "@/schemas/workspace";
 import { useCreateWorkspaceMutation } from "@/hooks/mutations/useCreateWorkspaceMutation";
-import { toast } from "sonner";
 import {
   CREATE_WORKSPACE_ERROR_MESSAGE,
   CREATE_WORKSPACE_LOADING_MESSAGE,
@@ -40,6 +44,8 @@ export const CreateWorkspaceForm = ({
 }: {
   closeModal?: () => void;
 }) => {
+  const inputRef = useRef<HTMLInputElement>(null);
+
   const mutation = useCreateWorkspaceMutation();
 
   const form = useForm<CreateWorkspaceFormData>({
@@ -67,6 +73,14 @@ export const CreateWorkspaceForm = ({
     });
   }
 
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+
+    if (file) {
+      form.setValue("image", file);
+    }
+  };
+
   return (
     <Card className="max-w-md">
       <CardHeader>
@@ -87,6 +101,61 @@ export const CreateWorkspaceForm = ({
                   </FormControl>
                   <FormMessage />
                 </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="image"
+              render={({ field }) => (
+                <div className="flex flex-col gap-y-2">
+                  <div className="flex items-center gap-x-5">
+                    {field.value ? (
+                      <div className="size-16 relative rounded-md overflow-hidden">
+                        <Image
+                          src={
+                            field.value instanceof File
+                              ? URL.createObjectURL(field.value)
+                              : field.value
+                          }
+                          alt="workspace logo"
+                          fill
+                          className="object-cover"
+                        />
+                      </div>
+                    ) : (
+                      <div>
+                        <Avatar className="size-16">
+                          <AvatarFallback>
+                            <ImageIcon className="size-8 text-neutral-400" />
+                          </AvatarFallback>
+                        </Avatar>
+                      </div>
+                    )}
+                    <div className="flex flex-col">
+                      <p className="text-sm">Workspace Icon</p>
+                      <p className="text-sm text-muted-foreground">
+                        JPG, PNG, SVG or JPEG, Max size 5MB
+                      </p>
+                      <input
+                        className="hidden"
+                        type="file"
+                        accept=".jpg, .png, .svg, .jpeg"
+                        ref={inputRef}
+                        disabled={mutation.isPending}
+                        onChange={handleImageChange}
+                      />
+                      <Button
+                        type="button"
+                        disabled={mutation.isPending}
+                        variant="secondary"
+                        className="mt-2 w-fit"
+                        onClick={() => inputRef.current?.click()}
+                      >
+                        Upload
+                      </Button>
+                    </div>
+                  </div>
+                </div>
               )}
             />
           </CardContent>

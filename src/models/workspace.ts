@@ -12,6 +12,9 @@ const workspaceSchema = new Schema(
       ref: "User",
       required: true,
     },
+    image: {
+      type: String,
+    },
   },
   { timestamps: true }
 );

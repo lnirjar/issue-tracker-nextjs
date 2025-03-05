@@ -11,7 +11,14 @@ interface CreateWorkspaceResponse {
 }
 
 const createWorkspace = (data: CreateWorkspaceFormData) => {
-  return axios.post<CreateWorkspaceResponse>("/api/workspaces", data);
+  const formData = new FormData();
+
+  formData.append("name", data.name);
+  formData.append("image", data.image instanceof File ? data.image : "");
+
+  return axios.post<CreateWorkspaceResponse>("/api/workspaces", formData, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
 };
 
 export const useCreateWorkspaceMutation = () => {
