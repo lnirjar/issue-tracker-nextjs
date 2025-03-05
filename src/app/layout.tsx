@@ -1,14 +1,18 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Geist } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
+
+import { QueryProvider } from "@/components/query-provider";
+
+import { Toaster } from "@/components/ui/sonner";
 
 import { APP_NAME } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
 import "./globals.css";
 
-const interSans = Inter({
-  variable: "--font-inter-sans",
+const geistSans = Geist({
+  variable: "--font-geist-sans",
   subsets: ["latin"],
 });
 
@@ -26,12 +30,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
-      <html lang="en">
-        <body className={cn(interSans.variable, "antialiased min-h-screen")}>
-          {children}
-        </body>
-      </html>
-    </ClerkProvider>
+    <html lang="en">
+      <body className={cn(geistSans.className, "antialiased min-h-screen")}>
+        <ClerkProvider>
+          <QueryProvider>
+            {children}
+            <Toaster />
+          </QueryProvider>
+        </ClerkProvider>
+      </body>
+    </html>
   );
 }

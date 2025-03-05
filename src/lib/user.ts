@@ -1,5 +1,20 @@
 import { dbConnect } from "@/lib/db";
 import { User } from "@/models/user";
+import { auth } from "@clerk/nextjs/server";
+
+export const getCurrentUser = async () => {
+  const { userId: clerkId } = await auth();
+
+  if (!clerkId) {
+    return null;
+  }
+
+  await dbConnect();
+
+  const user = await User.findOne({ clerkId }).exec();
+
+  return user;
+};
 
 export const createUser = async ({
   clerkId,
