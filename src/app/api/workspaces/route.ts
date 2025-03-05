@@ -15,8 +15,8 @@ export async function POST(request: Request) {
     const formData = await request.formData();
 
     const data = {
-      name: formData.get("name") as string,
-      image: formData.get("image") as File,
+      name: formData.get("name"),
+      image: formData.get("image") || undefined,
     };
 
     const parsed = createWorkspaceFormSchema.safeParse(data);
@@ -35,7 +35,7 @@ export async function POST(request: Request) {
 
     const workspace = await Workspace.create({ name, user: user._id });
 
-    if (!(image instanceof File)) {
+    if (!image) {
       return Response.json({ workspace }, { status: 201 });
     }
 

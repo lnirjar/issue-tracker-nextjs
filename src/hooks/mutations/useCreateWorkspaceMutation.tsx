@@ -14,7 +14,9 @@ const createWorkspace = (data: CreateWorkspaceFormData) => {
   const formData = new FormData();
 
   formData.append("name", data.name);
-  formData.append("image", data.image instanceof File ? data.image : "");
+  if (data.image) {
+    formData.append("image", data.image);
+  }
 
   return axios.post<CreateWorkspaceResponse>("/api/workspaces", formData, {
     headers: { "Content-Type": "multipart/form-data" },

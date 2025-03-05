@@ -4,12 +4,7 @@ export const createWorkspaceFormSchema = z.object({
   name: z.string().trim().min(1, {
     message: "Workspace name is required.",
   }),
-  image: z
-    .union([
-      z.instanceof(File),
-      z.string().transform((value) => (value === "" ? undefined : value)),
-    ])
-    .optional(),
+  image: z.instanceof(File).optional(),
 });
 
 export type CreateWorkspaceFormData = z.infer<typeof createWorkspaceFormSchema>;

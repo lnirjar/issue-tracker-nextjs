@@ -112,11 +112,7 @@ export const CreateWorkspaceForm = ({
                     {field.value ? (
                       <div className="size-16 relative rounded-md overflow-hidden">
                         <Image
-                          src={
-                            field.value instanceof File
-                              ? URL.createObjectURL(field.value)
-                              : field.value
-                          }
+                          src={URL.createObjectURL(field.value)}
                           alt="workspace logo"
                           fill
                           className="object-cover"
