@@ -1,8 +1,41 @@
 import { Workspace } from "@/models/workspace";
+import { WorkspaceMember } from "@/models/workspace-member";
 import { createWorkspaceFormSchema } from "@/schemas/workspace";
 import { getCurrentUser } from "@/lib/user";
 import { uploadWorkspaceAvatarToCloudinary } from "@/lib/cloudinary";
-import { AUTH_REQUIRED_MESSAGE, UNKNOWN_ERROR_MESSAGE } from "@/lib/constants";
+import {
+  ADMIN,
+  AUTH_REQUIRED_MESSAGE,
+  UNKNOWN_ERROR_MESSAGE,
+} from "@/lib/constants";
+
+export async function GET() {
+  try {
+    const user = await getCurrentUser();
+
+    if (!user) {
+      return Response.json({ message: AUTH_REQUIRED_MESSAGE }, { status: 401 });
+    }
+
+    const userWorkspaces = await WorkspaceMember.find({
+      user: user._id,
+    })
+      .select("-_id -user")
+      .populate("workspace")
+      .exec();
+
+    const workspaces = userWorkspaces.map((workspaceMember) => {
+      const workspaceMemberObj = workspaceMember.toObject();
+      const { workspace, role } = workspaceMemberObj;
+      return { ...workspace, role };
+    });
+
+    return Response.json({ workspaces }, { status: 200 });
+  } catch (error) {
+    console.error(error);
+    return Response.json({ message: UNKNOWN_ERROR_MESSAGE }, { status: 500 });
+  }
+}
 
 export async function POST(request: Request) {
   try {
@@ -35,8 +68,14 @@ export async function POST(request: Request) {
 
     const workspace = await Workspace.create({ name, user: user._id });
 
+    const workspaceMember = await WorkspaceMember.create({
+      workspace: workspace._id,
+      user: user._id,
+      role: ADMIN,
+    });
+
     if (!image) {
-      return Response.json({ workspace }, { status: 201 });
+      return Response.json({ workspace, workspaceMember }, { status: 201 });
     }
 
     const arrayBuffer = await image.arrayBuffer();
@@ -54,7 +93,10 @@ export async function POST(request: Request) {
       { new: true }
     );
 
-    return Response.json({ workspace: updatedWorkspace }, { status: 201 });
+    return Response.json(
+      { workspace: updatedWorkspace, workspaceMember },
+      { status: 201 }
+    );
   } catch (error) {
     console.error(error);
     return Response.json({ message: UNKNOWN_ERROR_MESSAGE }, { status: 500 });
