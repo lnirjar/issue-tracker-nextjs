@@ -3,6 +3,7 @@ import { Geist } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 
 import { QueryProvider } from "@/components/query-provider";
+import { ClerkAuthListener } from "@/components/clerk-auth-listener";
 
 import { Toaster } from "@/components/ui/sonner";
 
@@ -35,6 +36,7 @@ export default function RootLayout({
         <ClerkProvider>
           <QueryProvider>
             {children}
+            <ClerkAuthListener />
             <Toaster />
           </QueryProvider>
         </ClerkProvider>
