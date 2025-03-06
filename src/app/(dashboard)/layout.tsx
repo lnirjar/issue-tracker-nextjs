@@ -1,6 +1,21 @@
+import { Metadata } from "next";
 import { auth } from "@clerk/nextjs/server";
+
+import { LandingPage } from "@/components/landing-page";
 import { Sidebar } from "@/components/sidebar";
 import { Navbar } from "@/components/navbar";
+
+export const generateMetadata = async (): Promise<Metadata> => {
+  const { userId } = await auth();
+
+  if (!userId) {
+    return {};
+  }
+
+  return {
+    title: "Dashboard",
+  };
+};
 
 export default async function DashboardLayout({
   children,
@@ -10,7 +25,7 @@ export default async function DashboardLayout({
   const { userId } = await auth();
 
   if (!userId) {
-    return <>{children}</>;
+    return <LandingPage />;
   }
 
   return (
