@@ -1,6 +1,7 @@
 import { UserButton } from "@clerk/nextjs";
 
 import { MobileSidebar } from "@/components/mobile-sidebar";
+import { Sidebar } from "@/components/sidebar";
 
 export const Navbar = () => {
   return (
@@ -11,7 +12,9 @@ export const Navbar = () => {
           Monitor all of your projects and tasks here
         </p>
       </div>
-      <MobileSidebar />
+      <MobileSidebar>
+        <Sidebar />
+      </MobileSidebar>
       <UserButton />
     </nav>
   );

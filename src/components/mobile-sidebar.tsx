@@ -8,13 +8,12 @@ import { Button } from "@/components/ui/button";
 import {
   Sheet,
   SheetContent,
+  SheetDescription,
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
 
-import { Sidebar } from "@/components/sidebar";
-
-export const MobileSidebar = () => {
+export const MobileSidebar = ({ children }: { children: React.ReactNode }) => {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
 
@@ -31,7 +30,8 @@ export const MobileSidebar = () => {
       </SheetTrigger>
       <SheetContent side="left" className="p-0 w-64">
         <SheetTitle className="sr-only">Sidebar</SheetTitle>
-        <Sidebar />
+        <SheetDescription className="sr-only">Sidebar</SheetDescription>
+        {children}
       </SheetContent>
     </Sheet>
   );

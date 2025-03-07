@@ -16,10 +16,14 @@ export const WorkspaceAvatar = ({
 }: WorkspaceAvatarProps) => {
   if (image) {
     return (
-      <div
-        className={cn("size-10 relative rounded-md overflow-hidden", className)}
-      >
-        <Image src={image} alt="name" fill className="object-cover" />
+      <div className={cn("size-10 rounded-md overflow-hidden", className)}>
+        <Image
+          src={image}
+          alt={name}
+          width={40}
+          height={40}
+          className="size-10"
+        />
       </div>
     );
   }
