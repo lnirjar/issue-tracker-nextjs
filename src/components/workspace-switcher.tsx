@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { RiAddCircleFill } from "react-icons/ri";
 
 import {
@@ -9,13 +10,22 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Skeleton } from "@/components/ui/skeleton";
 
 import { WorkspaceAvatar } from "@/components/workspace-avatar";
 import { useUserWorkspacesDataQuery } from "@/hooks/queries/useUserWorkpacesDataQuery";
 import { UNKNOWN_ERROR_MESSAGE } from "@/lib/constants";
 
 export const WorkspaceSwitcher = () => {
-  const { data, isLoading, isError } = useUserWorkspacesDataQuery();
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  const { data, isLoading, isError, isPending } = useUserWorkspacesDataQuery({
+    enabled: isMounted,
+  });
 
   return (
     <div className="flex flex-col gap-y-2">
@@ -23,15 +33,15 @@ export const WorkspaceSwitcher = () => {
         <p className="text-xs uppercase text-neutral-500">Workspaces</p>
         <RiAddCircleFill className="size-5 text-neutral-500 cursor-pointer hover:opacity-75 transition" />
       </div>
-      {isLoading ? (
-        <div>Loading...</div>
+      {isPending || isLoading ? (
+        <Skeleton className="w-full h-12" />
       ) : isError ? (
         <div>{UNKNOWN_ERROR_MESSAGE}</div>
       ) : data?.data.workspaces.length === 0 ? (
         <div>No workspaces found</div>
       ) : (
         <Select>
-          <SelectTrigger className="w-full h-fit bg-neutral-200 font-medium p-1 focus:ring-transparent">
+          <SelectTrigger className="w-full h-12 bg-neutral-200 font-medium p-1 focus:ring-transparent">
             <SelectValue placeholder="No workspace selected" />
           </SelectTrigger>
           <SelectContent>

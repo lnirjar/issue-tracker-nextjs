@@ -1,3 +1,5 @@
+"use client";
+
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 
@@ -11,9 +13,14 @@ const getUserWorkpaces = () => {
   return axios.get<GetUserWorkspacesResponse>("/api/workspaces");
 };
 
-export const useUserWorkspacesDataQuery = () => {
+export const useUserWorkspacesDataQuery = ({
+  enabled,
+}: {
+  enabled: boolean;
+}) => {
   return useQuery({
     queryKey: ["workspaces"],
     queryFn: getUserWorkpaces,
+    enabled,
   });
 };
