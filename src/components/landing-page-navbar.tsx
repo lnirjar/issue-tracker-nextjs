@@ -11,7 +11,7 @@ export const LandingPageNavbar = () => {
   const pathname = usePathname();
 
   return (
-    <div className="flex justify-between items-center">
+    <div className="flex justify-between items-center min-h-9">
       <Link href="/">
         <Image
           src="/logo.svg"

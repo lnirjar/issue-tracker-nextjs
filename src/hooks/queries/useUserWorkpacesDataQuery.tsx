@@ -5,12 +5,16 @@ import { useQuery } from "@tanstack/react-query";
 
 import { Workspace } from "@/models/workspace";
 
-interface GetUserWorkspacesResponse {
+export interface GetUserWorkspacesResponse {
   workspaces: Workspace[];
 }
 
-const getUserWorkpaces = () => {
-  return axios.get<GetUserWorkspacesResponse>("/api/workspaces");
+const getUserWorkpaces = async () => {
+  const response = await axios.get<GetUserWorkspacesResponse>(
+    "/api/workspaces"
+  );
+
+  return response.data;
 };
 
 export const useUserWorkspacesDataQuery = ({

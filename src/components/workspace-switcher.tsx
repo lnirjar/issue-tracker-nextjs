@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { RiAddCircleFill } from "react-icons/ri";
 
 import {
@@ -13,11 +14,15 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 
 import { WorkspaceAvatar } from "@/components/workspace-avatar";
+import { CreateWorkspaceModal } from "@/components/create-workspace-modal";
 import { useUserWorkspacesDataQuery } from "@/hooks/queries/useUserWorkpacesDataQuery";
 import { UNKNOWN_ERROR_MESSAGE } from "@/lib/constants";
+import { useWorkspaceId } from "@/app/(dashboard)/workspaces/hooks/use-workspace-id";
 
 export const WorkspaceSwitcher = () => {
   const [isMounted, setIsMounted] = useState(false);
+
+  const router = useRouter();
 
   useEffect(() => {
     setIsMounted(true);
@@ -27,25 +32,42 @@ export const WorkspaceSwitcher = () => {
     enabled: isMounted,
   });
 
+  const workspaceId = useWorkspaceId();
+
+  const onSelect = (workspaceId: string) => {
+    router.push(`/workspaces/${workspaceId}`);
+  };
+
   return (
     <div className="flex flex-col gap-y-2">
       <div className="flex items-center justify-between">
         <p className="text-xs uppercase text-neutral-500">Workspaces</p>
-        <RiAddCircleFill className="size-5 text-neutral-500 cursor-pointer hover:opacity-75 transition" />
+        <CreateWorkspaceModal>
+          <RiAddCircleFill className="size-5 text-neutral-500 cursor-pointer hover:opacity-75 transition" />
+        </CreateWorkspaceModal>
       </div>
       {isPending || isLoading ? (
         <Skeleton className="w-full h-12" />
       ) : isError ? (
         <div>{UNKNOWN_ERROR_MESSAGE}</div>
-      ) : data?.data.workspaces.length === 0 ? (
+      ) : data?.workspaces.length === 0 ? (
         <div>No workspaces found</div>
       ) : (
-        <Select>
+        <Select
+          onValueChange={onSelect}
+          value={
+            data.workspaces.find(
+              (workspace) => workspace._id.toString() === workspaceId
+            )
+              ? workspaceId
+              : undefined
+          }
+        >
           <SelectTrigger className="w-full h-12 bg-neutral-200 font-medium p-1 focus:ring-transparent">
             <SelectValue placeholder="No workspace selected" />
           </SelectTrigger>
           <SelectContent>
-            {data?.data.workspaces.map((workspace) => (
+            {data?.workspaces.map((workspace) => (
               <SelectItem
                 key={workspace._id.toString()}
                 value={workspace._id.toString()}

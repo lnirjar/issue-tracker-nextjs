@@ -5,12 +5,13 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { Workspace } from "@/models/workspace";
 import { CreateWorkspaceFormData } from "@/schemas/workspace";
+import { GetUserWorkspacesResponse } from "@/hooks/queries/useUserWorkpacesDataQuery";
 
 interface CreateWorkspaceResponse {
   workspace: Workspace;
 }
 
-const createWorkspace = (data: CreateWorkspaceFormData) => {
+const createWorkspace = async (data: CreateWorkspaceFormData) => {
   const formData = new FormData();
 
   formData.append("name", data.name);
@@ -18,9 +19,15 @@ const createWorkspace = (data: CreateWorkspaceFormData) => {
     formData.append("image", data.image);
   }
 
-  return axios.post<CreateWorkspaceResponse>("/api/workspaces", formData, {
-    headers: { "Content-Type": "multipart/form-data" },
-  });
+  const response = await axios.post<CreateWorkspaceResponse>(
+    "/api/workspaces",
+    formData,
+    {
+      headers: { "Content-Type": "multipart/form-data" },
+    }
+  );
+
+  return response.data;
 };
 
 export const useCreateWorkspaceMutation = () => {
@@ -28,7 +35,20 @@ export const useCreateWorkspaceMutation = () => {
 
   return useMutation({
     mutationFn: createWorkspace,
-    onSuccess: () => {
+    onSuccess: (data) => {
+      queryClient.setQueryData<GetUserWorkspacesResponse>(
+        ["workspaces"],
+        (oldData?: GetUserWorkspacesResponse) => {
+          const oldWorkspaces = oldData?.workspaces;
+          const newWorkspace = data.workspace;
+          if (oldWorkspaces) {
+            return { workspaces: [...oldWorkspaces, newWorkspace] };
+          }
+
+          return { workspaces: [newWorkspace] };
+        }
+      );
+
       queryClient.invalidateQueries({ queryKey: ["workspaces"] });
     },
   });

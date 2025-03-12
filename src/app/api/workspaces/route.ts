@@ -2,7 +2,9 @@ import { Workspace } from "@/models/workspace";
 import { WorkspaceMember } from "@/models/workspace-member";
 import { createWorkspaceFormSchema } from "@/schemas/workspace";
 import { getCurrentUser } from "@/lib/user";
+import { getUserWorkspaces } from "@/lib/workspace";
 import { uploadWorkspaceAvatarToCloudinary } from "@/lib/cloudinary";
+import { handleError } from "@/lib/error";
 import {
   ADMIN,
   AUTH_REQUIRED_MESSAGE,
@@ -11,29 +13,11 @@ import {
 
 export async function GET() {
   try {
-    const user = await getCurrentUser();
-
-    if (!user) {
-      return Response.json({ message: AUTH_REQUIRED_MESSAGE }, { status: 401 });
-    }
-
-    const userWorkspaces = await WorkspaceMember.find({
-      user: user._id,
-    })
-      .select("-_id -user")
-      .populate("workspace")
-      .exec();
-
-    const workspaces = userWorkspaces.map((workspaceMember) => {
-      const workspaceMemberObj = workspaceMember.toObject();
-      const { workspace, role } = workspaceMemberObj;
-      return { ...workspace, role };
-    });
-
+    const workspaces = await getUserWorkspaces();
     return Response.json({ workspaces }, { status: 200 });
   } catch (error) {
-    console.error(error);
-    return Response.json({ message: UNKNOWN_ERROR_MESSAGE }, { status: 500 });
+    const { message, status } = handleError(error);
+    return Response.json({ message }, { status });
   }
 }
 

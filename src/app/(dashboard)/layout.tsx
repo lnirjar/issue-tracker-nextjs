@@ -1,20 +1,10 @@
 import { Metadata } from "next";
-import { auth } from "@clerk/nextjs/server";
 
-import { LandingPage } from "@/components/landing-page";
 import { Sidebar } from "@/components/sidebar";
 import { Navbar } from "@/components/navbar";
 
-export const generateMetadata = async (): Promise<Metadata> => {
-  const { userId } = await auth();
-
-  if (!userId) {
-    return {};
-  }
-
-  return {
-    title: "Dashboard",
-  };
+export const metadata: Metadata = {
+  title: "Dashboard",
 };
 
 export default async function DashboardLayout({
@@ -22,12 +12,6 @@ export default async function DashboardLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const { userId } = await auth();
-
-  if (!userId) {
-    return <LandingPage />;
-  }
-
   return (
     <div className="min-h-screen">
       <div className="flex w-full h-full">
