@@ -1,0 +1,37 @@
+import Link from "next/link";
+
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+
+import { getUserWorkspaces } from "@/lib/workspace";
+
+export default async function WorkspacesPage() {
+  const workspaces = await getUserWorkspaces();
+  return (
+    <div className="flex flex-col gap-6">
+      {workspaces.map((workspace) => (
+        <Link
+          key={workspace._id.toString()}
+          href={`/workspaces/${workspace._id.toString()}`}
+        >
+          <div className="flex gap-4">
+            <Avatar className="size-11 rounded-md">
+              <AvatarImage
+                src={workspace.image ?? undefined}
+                alt={workspace.name}
+              />
+              <AvatarFallback className="text-primary-foreground bg-primary font-semibold text-lg uppercase rounded-md">
+                {workspace.name[0]}
+              </AvatarFallback>
+            </Avatar>
+            <div>
+              <h3 className="font-medium">{workspace.name}</h3>
+              <p className="text-muted-foreground">
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+              </p>
+            </div>
+          </div>
+        </Link>
+      ))}
+    </div>
+  );
+}

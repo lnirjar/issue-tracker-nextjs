@@ -2,7 +2,7 @@ import { Types } from "mongoose";
 import { notFound } from "next/navigation";
 import { getWorkspaceMember } from "@/lib/workspace";
 
-export default async function WorkspacePage({
+export default async function WorkspaceMembersPage({
   params,
 }: {
   params: Promise<{ workspaceId: string }>;
@@ -19,9 +19,5 @@ export default async function WorkspacePage({
     notFound();
   }
 
-  return (
-    <div>
-      <div>Workspace {workspaceId}</div>
-    </div>
-  );
+  return <div>WorkspaceMembersPage {workspaceId}</div>;
 }

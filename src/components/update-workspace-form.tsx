@@ -1,8 +1,7 @@
 "use client";
 
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ImageIcon } from "lucide-react";
@@ -21,41 +20,42 @@ import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 import {
-  CreateWorkspaceFormData,
-  createWorkspaceFormSchema,
+  UpdateWorkspaceFormData,
+  updateWorkspaceFormSchema,
 } from "@/schemas/workspace";
-import { useCreateWorkspaceMutation } from "@/hooks/mutations/useCreateWorkspaceMutation";
+import { useUpdateWorkspaceMutation } from "@/hooks/mutations/useUpdateWorkspaceMutation";
 import {
-  CREATE_WORKSPACE_ERROR_MESSAGE,
-  CREATE_WORKSPACE_LOADING_MESSAGE,
-  CREATE_WORKSPACE_SUCCESS_MESSAGE,
+  UPDATE_WORKSPACE_ERROR_MESSAGE,
+  UPDATE_WORKSPACE_LOADING_MESSAGE,
+  UPDATE_WORKSPACE_SUCCESS_MESSAGE,
 } from "@/lib/constants";
 
-export const CreateWorkspaceForm = ({
-  closeModal,
+export const UpdateWorkspaceForm = ({
+  initialValues,
 }: {
-  closeModal?: () => void;
+  initialValues: { name: string; image?: string };
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const router = useRouter();
+  const [defaultValues, setDefaultValues] = useState(initialValues);
 
-  const mutation = useCreateWorkspaceMutation();
+  const mutation = useUpdateWorkspaceMutation();
 
-  const form = useForm<CreateWorkspaceFormData>({
-    resolver: zodResolver(createWorkspaceFormSchema),
+  const form = useForm<UpdateWorkspaceFormData>({
+    resolver: zodResolver(updateWorkspaceFormSchema),
     defaultValues: {
-      name: "",
+      name: defaultValues.name,
     },
   });
 
-  function onSubmit(values: CreateWorkspaceFormData) {
+  function onSubmit(values: UpdateWorkspaceFormData) {
     const result = mutation.mutateAsync(values, {
       onSuccess: (data) => {
-        form.reset();
-        const workspaceId = data.workspace._id.toString();
-        router.push(`/workspaces/${workspaceId}`);
-        closeModal?.();
+        setDefaultValues({
+          name: data.workspace.name,
+          image: data.workspace.image ?? undefined,
+        });
+        form.reset({ name: data.workspace.name });
       },
       onError: (error) => {
         console.error(error);
@@ -63,9 +63,9 @@ export const CreateWorkspaceForm = ({
     });
 
     toast.promise(result, {
-      loading: CREATE_WORKSPACE_LOADING_MESSAGE,
-      success: CREATE_WORKSPACE_SUCCESS_MESSAGE,
-      error: CREATE_WORKSPACE_ERROR_MESSAGE,
+      loading: UPDATE_WORKSPACE_LOADING_MESSAGE,
+      success: UPDATE_WORKSPACE_SUCCESS_MESSAGE,
+      error: UPDATE_WORKSPACE_ERROR_MESSAGE,
     });
   }
 
@@ -107,6 +107,15 @@ export const CreateWorkspaceForm = ({
                     <div className="size-20 relative rounded-md overflow-hidden">
                       <Image
                         src={URL.createObjectURL(field.value)}
+                        alt="workspace logo"
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+                  ) : defaultValues.image ? (
+                    <div className="size-20 relative rounded-md overflow-hidden">
+                      <Image
+                        src={defaultValues.image}
                         alt="workspace logo"
                         fill
                         className="object-cover"
@@ -159,7 +168,7 @@ export const CreateWorkspaceForm = ({
             Cancel
           </Button>
           <Button type="submit" disabled={mutation.isPending}>
-            Create
+            Save
           </Button>
         </div>
       </form>
