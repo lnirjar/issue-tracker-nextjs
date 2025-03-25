@@ -1,11 +1,18 @@
 import Link from "next/link";
+import { format } from "date-fns";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { CreateWorkspaceFormCard } from "@/components/create-workspace-form-card";
 
 import { getUserWorkspaces } from "@/lib/workspace";
 
 export default async function WorkspacesPage() {
   const workspaces = await getUserWorkspaces();
+
+  if (workspaces.length === 0) {
+    return <CreateWorkspaceFormCard />;
+  }
+
   return (
     <div className="flex flex-col gap-6">
       {workspaces.map((workspace) => (
@@ -26,7 +33,7 @@ export default async function WorkspacesPage() {
             <div>
               <h3 className="font-medium">{workspace.name}</h3>
               <p className="text-muted-foreground">
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                Joined on {format(new Date(workspace.joinedAt), "do MMMM yyyy")}
               </p>
             </div>
           </div>

@@ -30,8 +30,8 @@ export const getUserWorkspaces = async (currentUser?: User) => {
 
   const workspaces = userWorkspaces.map((workspaceMember) => {
     const workspaceMemberObj = workspaceMember.toObject();
-    const { workspace, role } = workspaceMemberObj;
-    return { ...workspace, role };
+    const { workspace, role, createdAt } = workspaceMemberObj;
+    return { ...workspace, role, joinedAt: createdAt };
   });
 
   return workspaces;
