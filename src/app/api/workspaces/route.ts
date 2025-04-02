@@ -1,5 +1,6 @@
 import { Workspace } from "@/models/workspace";
 import { WorkspaceMember } from "@/models/workspace-member";
+import { WorkspaceInvitation } from "@/models/workspace-invitation";
 import { createWorkspaceFormSchema } from "@/schemas/workspace";
 import { getCurrentUser } from "@/lib/user";
 import { getUserWorkspaces } from "@/lib/workspace";
@@ -58,6 +59,10 @@ export async function POST(request: Request) {
       role: ADMIN,
     });
 
+    const workspaceInvitation = await WorkspaceInvitation.create({
+      workspace: workspace._id,
+    });
+
     if (!image) {
       return Response.json({ workspace, workspaceMember }, { status: 201 });
     }
@@ -78,7 +83,7 @@ export async function POST(request: Request) {
     );
 
     return Response.json(
-      { workspace: updatedWorkspace, workspaceMember },
+      { workspace: updatedWorkspace, workspaceMember, workspaceInvitation },
       { status: 201 }
     );
   } catch (error) {

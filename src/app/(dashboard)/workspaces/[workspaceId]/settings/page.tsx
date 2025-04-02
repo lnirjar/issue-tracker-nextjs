@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 import { UpdateWorkspaceFormCard } from "@/components/update-workspace-form-card";
+import { ResetWorkspaceInviteFormCard } from "@/components/reset-workspace-invite-form-card";
 import { DeleteWorkspaceFormCard } from "@/components/delete-workspace-form-card";
 
 import { getWorkspaceMember } from "@/lib/workspace";
@@ -44,6 +45,7 @@ export default async function WorkspaceSettingsPage({
   return (
     <div className="flex flex-col gap-6">
       <UpdateWorkspaceFormCard workspaceId={workspaceId} />
+      <ResetWorkspaceInviteFormCard workspaceId={workspaceId} />
       <DeleteWorkspaceFormCard />
     </div>
   );

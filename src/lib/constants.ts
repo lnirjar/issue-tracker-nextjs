@@ -26,6 +26,17 @@ export const UPDATE_WORKSPACE_SUCCESS_MESSAGE =
   "Your workspace has been updated.";
 export const UPDATE_WORKSPACE_ERROR_MESSAGE = "Failed to upate your workspace.";
 
+export const RESET_WORKSPACE_INVITATION_LOADING_MESSAGE =
+  "Resetting Workspace Invite...";
+export const RESET_WORKSPACE_INVITATION_SUCCESS_MESSAGE =
+  "Your workspace invite has been resetted.";
+export const RESET_WORKSPACE_INVITATION_ERROR_MESSAGE =
+  "Failed to reset your workspace invite.";
+
+export const JOIN_WORKSPACE_LOADING_MESSAGE = "Joining Workspace...";
+export const JOIN_WORKSPACE_SUCCESS_MESSAGE = "Your have joined the workspace.";
+export const JOIN_WORKSPACE_ERROR_MESSAGE = "Failed to join the workspace.";
+
 export const DELETE_WORKSPACE_LOADING_MESSAGE = "Deleting Workspace...";
 export const DELETE_WORKSPACE_SUCCESS_MESSAGE =
   "Your workspace has been deleted.";

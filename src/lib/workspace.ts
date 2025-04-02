@@ -6,6 +6,7 @@ import createHttpError from "http-errors";
 import { User } from "@/models/user";
 import { Workspace } from "@/models/workspace";
 import { WorkspaceMember } from "@/models/workspace-member";
+import { WorkspaceInvitation } from "@/models/workspace-invitation";
 import { getCurrentUser } from "@/lib/user";
 import {
   AUTH_REQUIRED_MESSAGE,
@@ -88,4 +89,12 @@ export const getWorkspaceMember = async (
   }).exec();
 
   return member;
+};
+
+export const getWorkspaceInvite = async (workspaceId: string) => {
+  const invite = await WorkspaceInvitation.findOne({
+    workspace: workspaceId,
+  }).exec();
+
+  return invite;
 };

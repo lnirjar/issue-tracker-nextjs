@@ -44,7 +44,7 @@ export const Navigation = () => {
   const workspaceId = useWorkspaceId();
   const pathname = usePathname();
 
-  if (pathname === "/workspaces") {
+  if (!pathname.startsWith(`/workspaces/${workspaceId}`)) {
     return null;
   }
 
