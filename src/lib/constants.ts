@@ -43,6 +43,20 @@ export const DELETE_WORKSPACE_SUCCESS_MESSAGE =
 export const DELETE_WORKSPACE_ERROR_MESSAGE =
   "Failed to delete your workspace.";
 
+export const CHANGE_MEMBER_ROLE_LOADING_MESSAGE = "Updating Role...";
+export const CHANGE_MEMBER_ROLE_SUCCESS_MESSAGE =
+  "Member role has been updated.";
+export const CHANGE_MEMBER_ROLE_ERROR_MESSAGE = "Failed to update member role.";
+
+export const LEAVE_WORKSPACE_LOADING_MESSAGE = "Leaving Workspace...";
+export const LEAVE_WORKSPACE_SUCCESS_MESSAGE = "You have left the workspace.";
+export const LEAVE_WORKSPACE_ERROR_MESSAGE = "Failed to leave the workspace.";
+
+export const REMOVE_WORKSPACE_MEMBER_LOADING_MESSAGE = "Removing Member...";
+export const REMOVE_WORKSPACE_MEMBER_SUCCESS_MESSAGE =
+  "Member has been removed from the workspace.";
+export const REMOVE_WORKSPACE_MEMBER_ERROR_MESSAGE = "Failed to remove member.";
+
 export const WORKSPACE_ID_REQUIRED_MESSAGE = "Workspace id is required";
 export const INVALID_WORKSPACE_ID_MESSAGE = "Workspace id is invalid";
 export const NOT_WORKSPACE_MEMBER_MESSAGE =

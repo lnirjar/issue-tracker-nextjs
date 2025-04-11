@@ -67,7 +67,7 @@ export const getUserWorkspace = async (
 
 export const getWorkspaceMember = async (
   workspaceId: string,
-  currentUser?: User
+  currentUser?: User | null
 ) => {
   if (!workspaceId) {
     throw new createHttpError.BadRequest(WORKSPACE_ID_REQUIRED_MESSAGE);
@@ -97,4 +97,31 @@ export const getWorkspaceInvite = async (workspaceId: string) => {
   }).exec();
 
   return invite;
+};
+
+export const getWorkspaceMembers = async (
+  workspaceId: string,
+  currentUser?: User | null
+) => {
+  if (!workspaceId) {
+    throw new createHttpError.BadRequest(WORKSPACE_ID_REQUIRED_MESSAGE);
+  }
+
+  if (!mongoose.Types.ObjectId.isValid(workspaceId)) {
+    throw new createHttpError.BadRequest(INVALID_WORKSPACE_ID_MESSAGE);
+  }
+
+  const user = currentUser ?? (await getCurrentUser());
+
+  if (!user) {
+    throw new createHttpError.Unauthorized(AUTH_REQUIRED_MESSAGE);
+  }
+
+  const members = await WorkspaceMember.find({
+    workspace: workspaceId,
+  })
+    .populate<{ user: User }>("user")
+    .exec();
+
+  return members;
 };
