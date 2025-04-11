@@ -59,7 +59,16 @@ export const updateUser = async ({
 export const deleteUser = async ({ clerkId }: { clerkId: string }) => {
   await dbConnect();
 
-  return User.findOneAndDelete({ clerkId }).exec();
+  const updatedUser = await User.findOneAndUpdate(
+    { clerkId },
+    {
+      name: "Deleted User",
+      username: `deleteduser_${clerkId.slice(-6)}`,
+      email: `deleteduser_${clerkId.slice(-6)}@example.com`,
+      avatar: "",
+    },
+    { new: true }
+  ).exec();
 
-  // TODO: Delete user data
+  return updatedUser;
 };
