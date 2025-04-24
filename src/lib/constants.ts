@@ -57,6 +57,18 @@ export const REMOVE_WORKSPACE_MEMBER_SUCCESS_MESSAGE =
   "Member has been removed from the workspace.";
 export const REMOVE_WORKSPACE_MEMBER_ERROR_MESSAGE = "Failed to remove member.";
 
+export const CREATE_PROJECT_LOADING_MESSAGE = "Creating Project...";
+export const CREATE_PROJECT_SUCCESS_MESSAGE = "Your project has been created.";
+export const CREATE_PROJECT_ERROR_MESSAGE = "Failed to create your project.";
+
+export const UPDATE_PROJECT_LOADING_MESSAGE = "Updating Project...";
+export const UPDATE_PROJECT_SUCCESS_MESSAGE = "Your project has been updated.";
+export const UPDATE_PROJECT_ERROR_MESSAGE = "Failed to update your project.";
+
+export const DELETE_PROJECT_LOADING_MESSAGE = "Deleting Project...";
+export const DELETE_PROJECT_SUCCESS_MESSAGE = "Your project has been deleted.";
+export const DELETE_PROJECT_ERROR_MESSAGE = "Failed to delete your project.";
+
 export const WORKSPACE_ID_REQUIRED_MESSAGE = "Workspace id is required";
 export const INVALID_WORKSPACE_ID_MESSAGE = "Workspace id is invalid";
 export const NOT_WORKSPACE_MEMBER_MESSAGE =
@@ -65,3 +77,5 @@ export const NOT_WORKSPACE_ADMIN_MESSAGE =
   "You are not admin of this workspace";
 export const WORKSPACE_NOT_FOUND_MESSAGE =
   "This workspace does not exist or you are not a member";
+
+export const PROJECT_NOT_FOUND_MESSAGE = "Project not found";

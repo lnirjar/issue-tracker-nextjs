@@ -4,12 +4,14 @@ import { UserButton } from "@clerk/nextjs";
 import { usePathname } from "next/navigation";
 
 import { useWorkspaceId } from "@/app/(dashboard)/workspaces/hooks/use-workspace-id";
+import { useProjectId } from "@/app/(dashboard)/workspaces/hooks/use-project-id";
 import { MobileSidebar } from "@/components/mobile-sidebar";
 import { Sidebar } from "@/components/sidebar";
 
 export const Navbar = () => {
   const pathname = usePathname();
   const workspaceId = useWorkspaceId();
+  const projectId = useProjectId();
 
   const navItems = [
     {
@@ -37,6 +39,16 @@ export const Navbar = () => {
       path: `/workspaces/${workspaceId}/members`,
       title: "Members",
       description: "View and manage workspace members and permissions.",
+    },
+    {
+      path: `/workspaces/${workspaceId}/projects`,
+      title: "Projects",
+      description: "View and manage all projects in this workspace.",
+    },
+    {
+      path: `/workspaces/${workspaceId}/projects/${projectId}`,
+      title: "Project",
+      description: "See details, tasks, and updates for this project.",
     },
   ];
 

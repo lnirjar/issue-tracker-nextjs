@@ -10,11 +10,15 @@ cloudinary.config({
 export const UPLOAD_PRESETS = {
   ISSUE_TRACKER_NEXTJS_WORKSPACE_AVATARS:
     "issue-tracker-nextjs-workspace-avatars",
+  ISSUE_TRACKER_NEXTJS_WORKSPACE_PROJECT_AVATARS:
+    "issue-tracker-nextjs-workspace-project-avatars",
   ISSUE_TRACKER_NEXTJS_IMAGES: "issue-tracker-nextjs-images",
 };
 
 export const WORKSPACE_AVATARS_FOLDER =
   "issue-tracker-nextjs/workspace-avatars";
+export const WORKSPACE_PROJECT_AVATARS_FOLDER =
+  "issue-tracker-nextjs/workspace-project-avatars";
 export const IMAGES_FOLDER = "issue-tracker-nextjs/images";
 
 const uploadToCloudinary = async (
@@ -65,6 +69,21 @@ export const uploadWorkspaceAvatarToCloudinary = async (
   return uploadResult;
 };
 
+export const uploadWorkspaceProjectAvatarToCloudinary = async (
+  buffer: Buffer<ArrayBufferLike>,
+  projectId: string
+) => {
+  const avatarPublicId = `project-avatar-${projectId}`;
+  const uploadPreset =
+    UPLOAD_PRESETS.ISSUE_TRACKER_NEXTJS_WORKSPACE_PROJECT_AVATARS;
+  const uploadResult = await uploadToCloudinary(buffer, {
+    public_id: avatarPublicId,
+    upload_preset: uploadPreset,
+  });
+
+  return uploadResult;
+};
+
 export const deleteWorkspaceAvatarFromCloudinary = async (
   workspaceId: string
 ) => {
@@ -80,6 +99,26 @@ export const deleteWorkspaceAvatarFromCloudinary = async (
           `public_id: ${workspaceAvatarPublicId} \n` +
           `${error.message}`
         : "Something went wrong while deleting workspace avatar from Cloudinary.";
+
+    console.error(new Error(message));
+  }
+};
+
+export const deleteWorkspaceProjectAvatarFromCloudinary = async (
+  projectId: string
+) => {
+  const workspaceAvatarPublicId = `${WORKSPACE_PROJECT_AVATARS_FOLDER}/project-avatar-${projectId}`;
+  try {
+    await cloudinary.uploader.destroy(workspaceAvatarPublicId, {
+      invalidate: true,
+    });
+  } catch (error) {
+    const message =
+      error instanceof Error
+        ? `Something went wrong while deleting workspace project avatar from Cloudinary \n` +
+          `public_id: ${workspaceAvatarPublicId} \n` +
+          `${error.message}`
+        : "Something went wrong while deleting workspace project avatar from Cloudinary.";
 
     console.error(new Error(message));
   }

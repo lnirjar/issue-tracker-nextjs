@@ -7,6 +7,7 @@ import { User } from "@/models/user";
 import { Workspace } from "@/models/workspace";
 import { WorkspaceMember } from "@/models/workspace-member";
 import { WorkspaceInvitation } from "@/models/workspace-invitation";
+import { WorkspaceProject } from "@/models/project";
 import { getCurrentUser } from "@/lib/user";
 import {
   AUTH_REQUIRED_MESSAGE,
@@ -124,4 +125,29 @@ export const getWorkspaceMembers = async (
     .exec();
 
   return members;
+};
+
+export const getWorkspaceProjects = async (
+  workspaceId: string,
+  currentUser?: User | null
+) => {
+  if (!workspaceId) {
+    throw new createHttpError.BadRequest(WORKSPACE_ID_REQUIRED_MESSAGE);
+  }
+
+  if (!mongoose.Types.ObjectId.isValid(workspaceId)) {
+    throw new createHttpError.BadRequest(INVALID_WORKSPACE_ID_MESSAGE);
+  }
+
+  const user = currentUser ?? (await getCurrentUser());
+
+  if (!user) {
+    throw new createHttpError.Unauthorized(AUTH_REQUIRED_MESSAGE);
+  }
+
+  const projects = await WorkspaceProject.find({
+    workspace: workspaceId,
+  }).exec();
+
+  return projects;
 };
