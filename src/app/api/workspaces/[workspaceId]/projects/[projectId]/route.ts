@@ -4,6 +4,7 @@ import createHttpError from "http-errors";
 
 import { WorkspaceProject } from "@/models/project";
 import { updateProjectFormSchema } from "@/schemas/project";
+import { dbConnect } from "@/lib/db";
 import { getCurrentUser } from "@/lib/user";
 import { getWorkspaceMember } from "@/lib/workspace";
 import {
@@ -22,6 +23,8 @@ export async function PATCH(
   { params }: { params: Promise<{ projectId: string }> }
 ) {
   try {
+    await dbConnect();
+
     const user = await getCurrentUser();
 
     if (!user) {
@@ -100,6 +103,8 @@ export async function DELETE(
   { params }: { params: Promise<{ projectId: string }> }
 ) {
   try {
+    await dbConnect();
+
     const user = await getCurrentUser();
 
     if (!user) {

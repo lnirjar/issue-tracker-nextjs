@@ -3,6 +3,7 @@ import createHttpError from "http-errors";
 
 import { WorkspaceMember } from "@/models/workspace-member";
 import { changeMemberRoleSchema } from "@/schemas/member";
+import { dbConnect } from "@/lib/db";
 import { getCurrentUser } from "@/lib/user";
 import { getWorkspaceMember } from "@/lib/workspace";
 import { handleError } from "@/lib/error";
@@ -17,6 +18,8 @@ export async function PATCH(
   { params }: { params: Promise<{ workspaceId: string; memberId: string }> }
 ) {
   try {
+    await dbConnect();
+
     const user = await getCurrentUser();
 
     if (!user) {
@@ -81,6 +84,8 @@ export async function DELETE(
   { params }: { params: Promise<{ workspaceId: string; memberId: string }> }
 ) {
   try {
+    await dbConnect();
+
     const user = await getCurrentUser();
 
     if (!user) {

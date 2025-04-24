@@ -1,5 +1,7 @@
 import { Types } from "mongoose";
 import { notFound } from "next/navigation";
+
+import { dbConnect } from "@/lib/db";
 import { getWorkspaceMember } from "@/lib/workspace";
 
 export default async function TasksPage({
@@ -7,6 +9,8 @@ export default async function TasksPage({
 }: {
   params: Promise<{ workspaceId: string }>;
 }) {
+  await dbConnect();
+
   const { workspaceId } = await params;
 
   if (!Types.ObjectId.isValid(workspaceId)) {

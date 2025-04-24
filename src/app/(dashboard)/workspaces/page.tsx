@@ -5,8 +5,11 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { CreateWorkspaceFormCard } from "@/components/create-workspace-form-card";
 
 import { getUserWorkspaces } from "@/lib/workspace";
+import { dbConnect } from "@/lib/db";
 
 export default async function WorkspacesPage() {
+  await dbConnect();
+
   const workspaces = await getUserWorkspaces();
 
   if (workspaces.length === 0) {

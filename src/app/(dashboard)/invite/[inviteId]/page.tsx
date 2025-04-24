@@ -4,8 +4,9 @@ import { notFound, redirect } from "next/navigation";
 import { Workspace } from "@/models/workspace";
 import { WorkspaceInvitation } from "@/models/workspace-invitation";
 
-import { getWorkspaceMember } from "@/lib/workspace";
 import { JoinWorkspaceFormCard } from "@/components/join-workspace-form-card";
+import { getWorkspaceMember } from "@/lib/workspace";
+import { dbConnect } from "@/lib/db";
 
 export default async function JoinWorkspacePage({
   params,
@@ -17,6 +18,8 @@ export default async function JoinWorkspacePage({
   if (!Types.ObjectId.isValid(inviteId)) {
     notFound();
   }
+
+  await dbConnect();
 
   const invitation = await WorkspaceInvitation.findById(inviteId)
     .populate<{ workspace: Workspace }>("workspace")

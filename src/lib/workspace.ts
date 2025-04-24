@@ -8,6 +8,8 @@ import { Workspace } from "@/models/workspace";
 import { WorkspaceMember } from "@/models/workspace-member";
 import { WorkspaceInvitation } from "@/models/workspace-invitation";
 import { WorkspaceProject } from "@/models/project";
+
+import { dbConnect } from "@/lib/db";
 import { getCurrentUser } from "@/lib/user";
 import {
   AUTH_REQUIRED_MESSAGE,
@@ -17,6 +19,8 @@ import {
 } from "@/lib/constants";
 
 export const getUserWorkspaces = async (currentUser?: User) => {
+  await dbConnect();
+
   const user = currentUser ?? (await getCurrentUser());
 
   if (!user) {
@@ -43,6 +47,8 @@ export const getUserWorkspace = async (
   workspaceId: string,
   currentUser?: User
 ) => {
+  await dbConnect();
+
   const user = currentUser ?? (await getCurrentUser());
 
   if (!user) {
@@ -70,6 +76,8 @@ export const getWorkspaceMember = async (
   workspaceId: string,
   currentUser?: User | null
 ) => {
+  await dbConnect();
+
   if (!workspaceId) {
     throw new createHttpError.BadRequest(WORKSPACE_ID_REQUIRED_MESSAGE);
   }
@@ -93,6 +101,8 @@ export const getWorkspaceMember = async (
 };
 
 export const getWorkspaceInvite = async (workspaceId: string) => {
+  await dbConnect();
+
   const invite = await WorkspaceInvitation.findOne({
     workspace: workspaceId,
   }).exec();
@@ -104,6 +114,8 @@ export const getWorkspaceMembers = async (
   workspaceId: string,
   currentUser?: User | null
 ) => {
+  await dbConnect();
+
   if (!workspaceId) {
     throw new createHttpError.BadRequest(WORKSPACE_ID_REQUIRED_MESSAGE);
   }
@@ -131,6 +143,8 @@ export const getWorkspaceProjects = async (
   workspaceId: string,
   currentUser?: User | null
 ) => {
+  await dbConnect();
+
   if (!workspaceId) {
     throw new createHttpError.BadRequest(WORKSPACE_ID_REQUIRED_MESSAGE);
   }

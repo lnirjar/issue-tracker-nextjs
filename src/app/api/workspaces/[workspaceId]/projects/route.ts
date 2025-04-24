@@ -3,6 +3,7 @@ import createHttpError from "http-errors";
 
 import { WorkspaceProject } from "@/models/project";
 import { createProjectFormSchema } from "@/schemas/project";
+import { dbConnect } from "@/lib/db";
 import { getCurrentUser } from "@/lib/user";
 import { getWorkspaceMember, getWorkspaceProjects } from "@/lib/workspace";
 import { uploadWorkspaceProjectAvatarToCloudinary } from "@/lib/cloudinary";
@@ -31,6 +32,8 @@ export async function POST(
   { params }: { params: Promise<{ workspaceId: string }> }
 ) {
   try {
+    await dbConnect();
+
     const user = await getCurrentUser();
 
     if (!user) {

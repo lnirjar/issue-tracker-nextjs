@@ -8,6 +8,7 @@ import { UpdateWorkspaceFormCard } from "@/components/update-workspace-form-card
 import { ResetWorkspaceInviteFormCard } from "@/components/reset-workspace-invite-form-card";
 import { DeleteWorkspaceFormCard } from "@/components/delete-workspace-form-card";
 
+import { dbConnect } from "@/lib/db";
 import { getWorkspaceMember } from "@/lib/workspace";
 import { ADMIN, NOT_WORKSPACE_ADMIN_MESSAGE } from "@/lib/constants";
 
@@ -16,6 +17,8 @@ export default async function WorkspaceSettingsPage({
 }: {
   params: Promise<{ workspaceId: string }>;
 }) {
+  await dbConnect();
+
   const { workspaceId } = await params;
 
   if (!Types.ObjectId.isValid(workspaceId)) {

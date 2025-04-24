@@ -5,6 +5,7 @@ import { Workspace } from "@/models/workspace";
 import { WorkspaceInvitation } from "@/models/workspace-invitation";
 import { WorkspaceMember } from "@/models/workspace-member";
 
+import { dbConnect } from "@/lib/db";
 import { getCurrentUser } from "@/lib/user";
 import { getWorkspaceMember } from "@/lib/workspace";
 import { handleError } from "@/lib/error";
@@ -15,6 +16,8 @@ export async function POST(
   { params }: { params: Promise<{ inviteId: string }> }
 ) {
   try {
+    await dbConnect();
+
     const user = await getCurrentUser();
 
     if (!user) {

@@ -4,6 +4,7 @@ import { UploadApiResponse } from "cloudinary";
 import { Workspace } from "@/models/workspace";
 import { WorkspaceMember } from "@/models/workspace-member";
 import { updateWorkspaceFormSchema } from "@/schemas/workspace";
+import { dbConnect } from "@/lib/db";
 import { getCurrentUser } from "@/lib/user";
 import { getWorkspaceMember } from "@/lib/workspace";
 import {
@@ -23,6 +24,8 @@ export async function PATCH(
   { params }: { params: Promise<{ workspaceId: string }> }
 ) {
   try {
+    await dbConnect();
+
     const user = await getCurrentUser();
 
     if (!user) {
@@ -89,6 +92,8 @@ export async function DELETE(
   { params }: { params: Promise<{ workspaceId: string }> }
 ) {
   try {
+    await dbConnect();
+
     const user = await getCurrentUser();
 
     if (!user) {

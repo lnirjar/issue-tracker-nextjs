@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 
 import { WorkspaceMemberActionsDropdown } from "@/components/workspace-member-actions-dropdown";
 
+import { dbConnect } from "@/lib/db";
 import { getWorkspaceMember, getWorkspaceMembers } from "@/lib/workspace";
 import { getCurrentUser } from "@/lib/user";
 import { ADMIN } from "@/lib/constants";
@@ -16,6 +17,8 @@ export default async function WorkspaceMembersPage({
 }: {
   params: Promise<{ workspaceId: string }>;
 }) {
+  await dbConnect();
+
   const { workspaceId } = await params;
 
   if (!Types.ObjectId.isValid(workspaceId)) {

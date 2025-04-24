@@ -1,6 +1,7 @@
 import createHttpError from "http-errors";
 
 import { WorkspaceInvitation } from "@/models/workspace-invitation";
+import { dbConnect } from "@/lib/db";
 import { getCurrentUser } from "@/lib/user";
 import { getWorkspaceMember } from "@/lib/workspace";
 import { handleError } from "@/lib/error";
@@ -15,6 +16,8 @@ export async function PUT(
   { params }: { params: Promise<{ workspaceId: string }> }
 ) {
   try {
+    await dbConnect();
+
     const user = await getCurrentUser();
 
     if (!user) {
