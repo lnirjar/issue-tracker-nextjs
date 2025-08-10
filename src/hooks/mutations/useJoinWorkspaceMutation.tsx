@@ -40,6 +40,9 @@ export const useJoinWorkspaceMutation = () => {
       );
 
       queryClient.invalidateQueries({ queryKey: ["workspaces"] });
+      queryClient.invalidateQueries({
+        queryKey: ["workspace-members", data.workspace._id.toString()],
+      });
     },
   });
 };

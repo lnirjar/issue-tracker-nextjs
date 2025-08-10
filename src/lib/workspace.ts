@@ -74,7 +74,7 @@ export const getUserWorkspace = async (
 
 export const getWorkspaceMember = async (
   workspaceId: string,
-  currentUser?: User | null
+  currentUser?: User | null | { _id: string }
 ) => {
   await dbConnect();
 

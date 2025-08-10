@@ -17,13 +17,7 @@ export const WorkspaceAvatar = ({
   if (image) {
     return (
       <div className={cn("size-10 rounded-md overflow-hidden", className)}>
-        <Image
-          src={image}
-          alt={name}
-          width={40}
-          height={40}
-          className="size-10"
-        />
+        <Image src={image} alt={name} width={40} height={40} />
       </div>
     );
   }

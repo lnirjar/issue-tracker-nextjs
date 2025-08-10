@@ -77,5 +77,28 @@ export const NOT_WORKSPACE_ADMIN_MESSAGE =
   "You are not admin of this workspace";
 export const WORKSPACE_NOT_FOUND_MESSAGE =
   "This workspace does not exist or you are not a member";
+export const ASSIGNEE_NOT_WORKSPACE_MEMBER_MESSAGE =
+  "Assignee is not member of this workspace";
 
 export const PROJECT_NOT_FOUND_MESSAGE = "Project not found";
+
+export const BACKLOG = "BACKLOG";
+export const TODO = "TODO";
+export const IN_PROGRESS = "IN_PROGRESS";
+export const IN_REVIEW = "IN_REVIEW";
+export const DONE = "DONE";
+
+export const TASK_STATUSES = [
+  BACKLOG,
+  TODO,
+  IN_PROGRESS,
+  IN_REVIEW,
+  DONE,
+] as const;
+
+export type TaskStatus =
+  | typeof BACKLOG
+  | typeof TODO
+  | typeof IN_PROGRESS
+  | typeof IN_REVIEW
+  | typeof DONE;
