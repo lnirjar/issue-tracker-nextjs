@@ -69,7 +69,7 @@ export const CreateTaskForm = ({ closeModal }: { closeModal?: () => void }) => {
     const result = mutation.mutateAsync(values, {
       onSuccess: (data) => {
         form.reset();
-        const projectId = data.task.project.toString();
+        const projectId = data.task.project._id.toString();
         router.push(`/workspaces/${workspaceId}/projects/${projectId}`);
         closeModal?.();
       },

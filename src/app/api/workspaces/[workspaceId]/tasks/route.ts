@@ -106,7 +106,10 @@ export async function GET(
     }
 
     if (dueDate) {
-      filter.dueDate = dueDate;
+      const date = new Date(dueDate);
+      const start = new Date(date.setUTCHours(0, 0, 0, 0));
+      const end = new Date(date.setUTCHours(23, 59, 59, 999));
+      filter.dueDate = { $gte: start, $lte: end };
     }
 
     if (search) {
@@ -192,7 +195,7 @@ export async function POST(request: Request) {
       description,
       status,
       dueDate,
-      assignee: assignee._id,
+      assignee: assignee.user._id,
       project: project._id,
       position: newHighestPosition,
     });

@@ -7,15 +7,25 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 
 import { CreateTaskModal } from "@/components/create-task-modal";
+import { DataFilters } from "@/components/data-filters";
+
 import { useTasksDataQuery } from "@/hooks/queries/useTasksDataQuery";
+import { useDataFilters } from "@/hooks/useDataFilters";
 import { useProjectId } from "@/app/(dashboard)/workspaces/hooks/use-project-id";
-import { UNKNOWN_ERROR_MESSAGE } from "@/lib/constants";
+
+import { ALL, UNKNOWN_ERROR_MESSAGE } from "@/lib/constants";
 
 export const TaskViewSwitcher = () => {
   const projectId = useProjectId();
+  const [filters, setFilters] = useDataFilters();
+
+  const { status, assigneeId, dueDate } = filters;
 
   const { data, isLoading, isPending, isError } = useTasksDataQuery({
     projectId,
+    status: status === ALL ? undefined : status,
+    assigneeId: assigneeId === ALL ? undefined : assigneeId,
+    dueDate: dueDate ? dueDate.toUTCString() : undefined,
   });
 
   if (isLoading || isPending) {
@@ -40,7 +50,13 @@ export const TaskViewSwitcher = () => {
           </Button>
         </CreateTaskModal>
       </div>
-      <div className="my-4">Data Filters</div>
+      <div className="my-4">
+        <DataFilters
+          filters={filters}
+          setFilters={setFilters}
+          hideProjectFilter={true}
+        />
+      </div>
       <TabsContent value="table">{JSON.stringify(data.tasks)}</TabsContent>
       <TabsContent value="kanban">{JSON.stringify(data.tasks)}</TabsContent>
       <TabsContent value="calendar">{JSON.stringify(data.tasks)}</TabsContent>

@@ -9,7 +9,6 @@ import { WorkspaceProject } from "@/models/project";
 import { User } from "@/models/user";
 import { GetTasksQueryParams } from "@/schemas/task";
 import { useWorkspaceId } from "@/app/(dashboard)/workspaces/hooks/use-workspace-id";
-import { useProjectId } from "@/app/(dashboard)/workspaces/hooks/use-project-id";
 
 export interface GetTasksResponse {
   tasks: (Omit<Task, "project" | "assignee"> & {
@@ -17,6 +16,22 @@ export interface GetTasksResponse {
     assignee: User;
   })[];
 }
+
+export const tasksKey = (
+  data: GetTasksQueryParams & { workspaceId: string }
+) => {
+  const { workspaceId, projectId, assigneeId, status, dueDate, search } = data;
+
+  return [
+    "tasks",
+    workspaceId,
+    projectId,
+    assigneeId,
+    status,
+    dueDate,
+    search,
+  ] as const;
+};
 
 const getTasks = async (data: GetTasksQueryParams, workspaceId: string) => {
   const response = await axios.get<GetTasksResponse>(
@@ -38,10 +53,20 @@ export const useTasksDataQuery = (
   }, []);
 
   const workspaceId = useWorkspaceId();
-  const projectId = useProjectId();
+
+  const { projectId, assigneeId, status, dueDate, search } = data;
+
+  const queryKey = tasksKey({
+    workspaceId,
+    projectId,
+    assigneeId,
+    status,
+    dueDate,
+    search,
+  });
 
   return useQuery({
-    queryKey: ["tasks", workspaceId, projectId],
+    queryKey,
     queryFn: () => getTasks(data, workspaceId),
     enabled: isMounted && enabled,
   });

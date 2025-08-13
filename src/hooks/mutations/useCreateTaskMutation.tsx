@@ -8,7 +8,7 @@ import { WorkspaceProject } from "@/models/project";
 import { User } from "@/models/user";
 import { CreateTaskFormData } from "@/schemas/task";
 import { useWorkspaceId } from "@/app/(dashboard)/workspaces/hooks/use-workspace-id";
-import { GetTasksResponse } from "@/hooks/queries/useTasksDataQuery";
+import { GetTasksResponse, tasksKey } from "@/hooks/queries/useTasksDataQuery";
 
 interface CreateTaskResponse {
   task: Omit<Task, "project" | "assignee"> & {
@@ -33,8 +33,10 @@ export const useCreateTaskMutation = () => {
   return useMutation({
     mutationFn: (data: CreateTaskFormData) => createTask(data, workspaceId),
     onSuccess: (data) => {
+      const projectId = data.task.project._id.toString();
+
       queryClient.setQueryData<GetTasksResponse>(
-        ["tasks", workspaceId, data.task.project._id.toString()],
+        tasksKey({ workspaceId, projectId }),
         (oldData?: GetTasksResponse) => {
           const oldTasks = oldData?.tasks;
           const newTask = data.task;

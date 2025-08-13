@@ -102,3 +102,5 @@ export type TaskStatus =
   | typeof IN_PROGRESS
   | typeof IN_REVIEW
   | typeof DONE;
+
+export const ALL = "all";
