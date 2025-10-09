@@ -69,6 +69,18 @@ export const DELETE_PROJECT_LOADING_MESSAGE = "Deleting Project...";
 export const DELETE_PROJECT_SUCCESS_MESSAGE = "Your project has been deleted.";
 export const DELETE_PROJECT_ERROR_MESSAGE = "Failed to delete your project.";
 
+export const CREATE_TASK_LOADING_MESSAGE = "Creating Task...";
+export const CREATE_TASK_SUCCESS_MESSAGE = "Your task has been created.";
+export const CREATE_TASK_ERROR_MESSAGE = "Failed to create your task.";
+
+export const UPDATE_TASK_LOADING_MESSAGE = "Updating Task...";
+export const UPDATE_TASK_SUCCESS_MESSAGE = "Your task has been updated.";
+export const UPDATE_TASK_ERROR_MESSAGE = "Failed to update your task.";
+
+export const DELETE_TASK_LOADING_MESSAGE = "Deleting task...";
+export const DELETE_TASK_SUCCESS_MESSAGE = "Your task has been deleted.";
+export const DELETE_TASK_ERROR_MESSAGE = "Failed to delete your task.";
+
 export const WORKSPACE_ID_REQUIRED_MESSAGE = "Workspace id is required";
 export const INVALID_WORKSPACE_ID_MESSAGE = "Workspace id is invalid";
 export const NOT_WORKSPACE_MEMBER_MESSAGE =
@@ -81,6 +93,7 @@ export const ASSIGNEE_NOT_WORKSPACE_MEMBER_MESSAGE =
   "Assignee is not member of this workspace";
 
 export const PROJECT_NOT_FOUND_MESSAGE = "Project not found";
+export const TASK_NOT_FOUND_MESSAGE = "Task not found";
 
 export const BACKLOG = "BACKLOG";
 export const TODO = "TODO";

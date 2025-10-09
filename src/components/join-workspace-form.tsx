@@ -41,7 +41,7 @@ export const JoinWorkspaceForm = () => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
-        <Button type="submit" className="w-full">
+        <Button type="submit" disabled={mutation.isPending} className="w-full">
           Join Workspace
         </Button>
       </form>

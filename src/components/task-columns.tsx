@@ -132,11 +132,8 @@ export const columns: ColumnDef<GetTasksResponse["tasks"][number]>[] = [
     accessorKey: "actions",
     header: "Actions",
     cell: ({ row }) => {
-      const id = row.original._id.toString();
-      const projectId = row.original.project._id.toString();
-
       return (
-        <TaskActions id={id} projectId={projectId}>
+        <TaskActions task={row.original}>
           <Button variant="ghost" className="size-8 p-0">
             <MoreVerticalIcon className="size-4" />
           </Button>

@@ -26,46 +26,60 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { DatePicker } from "@/components/date-picker";
 import { WorkspaceAvatar } from "@/components/workspace-avatar";
 
-import { CreateTaskFormData, createTaskFormSchema } from "@/schemas/task";
-import { useCreateTaskMutation } from "@/hooks/mutations/useCreateTaskMutation";
+import { UpdateTaskFormData, updateTaskFormSchema } from "@/schemas/task";
+import { useUpdateTaskMutation } from "@/hooks/mutations/useUpdateTaskMutation";
 import { useWorkspaceMembersDataQuery } from "@/hooks/queries/useWorkspaceMembersDataQuery";
 import { useWorkspaceProjectsDataQuery } from "@/hooks/queries/useWorkspaceProjectsDataQuery";
-import { useProjectId } from "@/app/(dashboard)/workspaces/hooks/use-project-id";
+import { GetTasksResponse } from "@/hooks/queries/useTasksDataQuery";
 import { useWorkspaceId } from "@/app/(dashboard)/workspaces/hooks/use-workspace-id";
 
 import { cn } from "@/lib/utils";
 import {
   BACKLOG,
-  CREATE_TASK_ERROR_MESSAGE,
-  CREATE_TASK_LOADING_MESSAGE,
-  CREATE_TASK_SUCCESS_MESSAGE,
+  UPDATE_TASK_ERROR_MESSAGE,
+  UPDATE_TASK_LOADING_MESSAGE,
+  UPDATE_TASK_SUCCESS_MESSAGE,
   TASK_STATUSES,
 } from "@/lib/constants";
 
-export const CreateTaskForm = ({ closeModal }: { closeModal?: () => void }) => {
+export const EditTaskForm = ({
+  task,
+  closeModal,
+}: {
+  task: GetTasksResponse["tasks"][number];
+  closeModal?: () => void;
+}) => {
   const router = useRouter();
 
   const membersQuery = useWorkspaceMembersDataQuery({});
   const projectsQuery = useWorkspaceProjectsDataQuery({});
-  const mutation = useCreateTaskMutation();
+  const mutation = useUpdateTaskMutation({ taskId: task._id.toString() });
 
-  const projectId = useProjectId();
   const workspaceId = useWorkspaceId();
 
-  const form = useForm<CreateTaskFormData>({
-    resolver: zodResolver(createTaskFormSchema),
+  const projectId = task.project._id.toString();
+  const assigneeId = task.assignee._id.toString();
+
+  const form = useForm<UpdateTaskFormData>({
+    resolver: zodResolver(updateTaskFormSchema),
     defaultValues: {
-      name: "",
-      status: BACKLOG,
+      name: task?.name ?? "",
+      dueDate: task?.dueDate ? new Date(task.dueDate) : undefined,
+      status: task?.status ?? BACKLOG,
       projectId: projectsQuery.data?.projects.find(
         (project) => project._id.toString() === projectId
       )
         ? projectId
         : undefined,
+      assigneeId: membersQuery.data?.members.find(
+        (member) => member.user._id.toString() === assigneeId
+      )
+        ? assigneeId
+        : undefined,
     },
   });
 
-  function onSubmit(values: CreateTaskFormData) {
+  function onSubmit(values: UpdateTaskFormData) {
     const result = mutation.mutateAsync(values, {
       onSuccess: (data) => {
         form.reset();
@@ -79,9 +93,9 @@ export const CreateTaskForm = ({ closeModal }: { closeModal?: () => void }) => {
     });
 
     toast.promise(result, {
-      loading: CREATE_TASK_LOADING_MESSAGE,
-      success: CREATE_TASK_SUCCESS_MESSAGE,
-      error: CREATE_TASK_ERROR_MESSAGE,
+      loading: UPDATE_TASK_LOADING_MESSAGE,
+      success: UPDATE_TASK_SUCCESS_MESSAGE,
+      error: UPDATE_TASK_ERROR_MESSAGE,
     });
   }
 
@@ -247,7 +261,7 @@ export const CreateTaskForm = ({ closeModal }: { closeModal?: () => void }) => {
             Cancel
           </Button>
           <Button type="submit" disabled={mutation.isPending}>
-            Create
+            Save
           </Button>
         </div>
       </form>

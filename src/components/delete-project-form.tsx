@@ -43,7 +43,11 @@ export const DeleteProjectForm = () => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
-        <Button type="submit" variant="destructive">
+        <Button
+          type="submit"
+          variant="destructive"
+          disabled={mutation.isPending}
+        >
           Delete
         </Button>
       </form>

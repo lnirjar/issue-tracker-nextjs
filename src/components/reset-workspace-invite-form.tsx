@@ -58,7 +58,11 @@ export const ResetWorkspaceInviteForm = ({
       <Input readOnly value={fullInviteLink} className="mb-6" />
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <div className="flex justify-between items-center">
-          <Button type="submit" variant="secondary">
+          <Button
+            type="submit"
+            variant="secondary"
+            disabled={mutation.isPending}
+          >
             Reset
           </Button>
           <Button

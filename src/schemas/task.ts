@@ -25,6 +25,10 @@ export const createTaskFormSchema = z.object({
 
 export type CreateTaskFormData = z.infer<typeof createTaskFormSchema>;
 
+export const updateTaskFormSchema = createTaskFormSchema.partial();
+
+export type UpdateTaskFormData = z.infer<typeof updateTaskFormSchema>;
+
 export const getTasksQuerySchema = z.object({
   projectId: z
     .string()
