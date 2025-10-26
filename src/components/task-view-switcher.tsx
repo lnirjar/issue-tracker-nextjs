@@ -10,6 +10,7 @@ import { CreateTaskModal } from "@/components/create-task-modal";
 import { DataFilters } from "@/components/data-filters";
 import { DataTable } from "@/components/tasks-data-table";
 import { columns } from "@/components/task-columns";
+import { DataKanban } from "@/components/tasks-data-kanban";
 
 import { useTasksDataQuery } from "@/hooks/queries/useTasksDataQuery";
 import { useDataFilters } from "@/hooks/useDataFilters";
@@ -62,7 +63,9 @@ export const TaskViewSwitcher = () => {
       <TabsContent value="table">
         <DataTable columns={columns} data={data.tasks} />
       </TabsContent>
-      <TabsContent value="kanban">{JSON.stringify(data.tasks)}</TabsContent>
+      <TabsContent value="kanban">
+        <DataKanban data={data} />
+      </TabsContent>
       <TabsContent value="calendar">{JSON.stringify(data.tasks)}</TabsContent>
     </Tabs>
   );

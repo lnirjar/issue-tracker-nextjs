@@ -29,13 +29,13 @@ const updateTask = async (
   return response.data;
 };
 
-export const useUpdateTaskMutation = ({ taskId }: { taskId: string }) => {
+export const useUpdateTaskMutation = () => {
   const queryClient = useQueryClient();
   const workspaceId = useWorkspaceId();
 
   return useMutation({
-    mutationFn: (data: UpdateTaskFormData) =>
-      updateTask(data, workspaceId, taskId),
+    mutationFn: (data: UpdateTaskFormData & { _id: string }) =>
+      updateTask(data, workspaceId, data._id),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["tasks", workspaceId],

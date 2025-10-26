@@ -40,9 +40,16 @@ import {
   CREATE_TASK_LOADING_MESSAGE,
   CREATE_TASK_SUCCESS_MESSAGE,
   TASK_STATUSES,
+  TaskStatus,
 } from "@/lib/constants";
 
-export const CreateTaskForm = ({ closeModal }: { closeModal?: () => void }) => {
+export const CreateTaskForm = ({
+  status = BACKLOG,
+  closeModal,
+}: {
+  status?: TaskStatus;
+  closeModal?: () => void;
+}) => {
   const router = useRouter();
 
   const membersQuery = useWorkspaceMembersDataQuery({});
@@ -56,7 +63,7 @@ export const CreateTaskForm = ({ closeModal }: { closeModal?: () => void }) => {
     resolver: zodResolver(createTaskFormSchema),
     defaultValues: {
       name: "",
-      status: BACKLOG,
+      status: status,
       projectId: projectsQuery.data?.projects.find(
         (project) => project._id.toString() === projectId
       )

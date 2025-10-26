@@ -28,7 +28,7 @@ export const columns: ColumnDef<GetTasksResponse["tasks"][number]>[] = [
     },
     cell: ({ row }) => {
       const name = row.original.name;
-      return <span className="line-clamp-1">{name}</span>;
+      return <span className="inline-block max-w-64 truncate">{name}</span>;
     },
   },
   {

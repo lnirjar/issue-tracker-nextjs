@@ -53,7 +53,7 @@ export const EditTaskForm = ({
 
   const membersQuery = useWorkspaceMembersDataQuery({});
   const projectsQuery = useWorkspaceProjectsDataQuery({});
-  const mutation = useUpdateTaskMutation({ taskId: task._id.toString() });
+  const mutation = useUpdateTaskMutation();
 
   const workspaceId = useWorkspaceId();
 
@@ -80,17 +80,20 @@ export const EditTaskForm = ({
   });
 
   function onSubmit(values: UpdateTaskFormData) {
-    const result = mutation.mutateAsync(values, {
-      onSuccess: (data) => {
-        form.reset();
-        const projectId = data.task.project._id.toString();
-        router.push(`/workspaces/${workspaceId}/projects/${projectId}`);
-        closeModal?.();
-      },
-      onError: (error) => {
-        console.error(error);
-      },
-    });
+    const result = mutation.mutateAsync(
+      { ...values, _id: task._id.toString() },
+      {
+        onSuccess: (data) => {
+          form.reset();
+          const projectId = data.task.project._id.toString();
+          router.push(`/workspaces/${workspaceId}/projects/${projectId}`);
+          closeModal?.();
+        },
+        onError: (error) => {
+          console.error(error);
+        },
+      }
+    );
 
     toast.promise(result, {
       loading: UPDATE_TASK_LOADING_MESSAGE,

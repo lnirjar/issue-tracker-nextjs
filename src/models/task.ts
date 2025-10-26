@@ -37,7 +37,7 @@ const taskSchema = new Schema(
     position: {
       type: Number,
       required: true,
-      min: 1000,
+      min: 0,
       max: 1000000,
     },
   },

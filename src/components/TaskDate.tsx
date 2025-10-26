@@ -1,4 +1,5 @@
 import { DONE, TaskStatus } from "@/lib/constants";
+import { cn } from "@/lib/utils";
 import {
   format,
   differenceInDays,
@@ -7,12 +8,21 @@ import {
   isThisYear,
 } from "date-fns";
 
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+
 export const TaskDate = ({
   date,
   status,
+  className,
 }: {
   date: string | Date;
   status: TaskStatus;
+  className?: string;
 }) => {
   const today = new Date();
   const endDate = new Date(date);
@@ -40,5 +50,16 @@ export const TaskDate = ({
     textColor = "text-muted-foreground";
   }
 
-  return <span className={textColor}>{formattedDate}</span>;
+  return (
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger>
+          <span className={cn(textColor, className)}>{formattedDate}</span>
+        </TooltipTrigger>
+        <TooltipContent>
+          <span>{format(endDate, "MMMM d, yyyy")}</span>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
+  );
 };

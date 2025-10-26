@@ -10,10 +10,13 @@ import {
 } from "@/components/ui/dialog";
 
 import { CreateTaskForm } from "@/components/create-task-form";
+import { TaskStatus } from "@/lib/constants";
 
 export const CreateTaskModal = ({
+  status,
   children,
 }: {
+  status?: TaskStatus;
   children: React.ReactNode;
 }) => {
   const [open, setOpen] = useState(false);
@@ -30,7 +33,7 @@ export const CreateTaskModal = ({
           <DialogTitle>Create Task</DialogTitle>
           <DialogDescription>Create a task</DialogDescription>
         </DialogHeader>
-        <CreateTaskForm closeModal={closeModal} />
+        <CreateTaskForm status={status} closeModal={closeModal} />
       </DialogContent>
     </Dialog>
   );
