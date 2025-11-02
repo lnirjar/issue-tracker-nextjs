@@ -25,6 +25,7 @@ export function DatePicker({
   onChange,
   className,
   placeholder = "Select a date",
+  ...props
 }: DatePickerProps) {
   return (
     <Popover>
@@ -37,6 +38,7 @@ export function DatePicker({
             !value && "text-muted-foreground",
             className
           )}
+          {...props}
         >
           <CalendarIcon />
           {value ? format(value, "dd-MM-yyyy") : <span>{placeholder}</span>}
