@@ -117,3 +117,15 @@ export type TaskStatus =
   | typeof DONE;
 
 export const ALL = "all";
+
+export const PREV = "PREV";
+export const NEXT = "NEXT";
+export const TODAY = "TODAY";
+
+export type CalendarNavigationAction = typeof PREV | typeof NEXT | typeof TODAY;
+
+export const TABLE = "TABLE";
+export const KANBAN = "KANBAN";
+export const CALENDAR = "CALENDAR";
+
+export type TaskView = typeof TABLE | typeof KANBAN | typeof CALENDAR;

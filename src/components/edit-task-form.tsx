@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
@@ -31,7 +30,6 @@ import { useUpdateTaskMutation } from "@/hooks/mutations/useUpdateTaskMutation";
 import { useWorkspaceMembersDataQuery } from "@/hooks/queries/useWorkspaceMembersDataQuery";
 import { useWorkspaceProjectsDataQuery } from "@/hooks/queries/useWorkspaceProjectsDataQuery";
 import { GetTasksResponse } from "@/hooks/queries/useTasksDataQuery";
-import { useWorkspaceId } from "@/app/(dashboard)/workspaces/hooks/use-workspace-id";
 
 import { cn } from "@/lib/utils";
 import {
@@ -49,13 +47,9 @@ export const EditTaskForm = ({
   task: GetTasksResponse["tasks"][number];
   closeModal?: () => void;
 }) => {
-  const router = useRouter();
-
   const membersQuery = useWorkspaceMembersDataQuery({});
   const projectsQuery = useWorkspaceProjectsDataQuery({});
   const mutation = useUpdateTaskMutation();
-
-  const workspaceId = useWorkspaceId();
 
   const projectId = task.project._id.toString();
   const assigneeId = task.assignee._id.toString();
@@ -83,10 +77,8 @@ export const EditTaskForm = ({
     const result = mutation.mutateAsync(
       { ...values, _id: task._id.toString() },
       {
-        onSuccess: (data) => {
+        onSuccess: () => {
           form.reset();
-          const projectId = data.task.project._id.toString();
-          router.push(`/workspaces/${workspaceId}/projects/${projectId}`);
           closeModal?.();
         },
         onError: (error) => {

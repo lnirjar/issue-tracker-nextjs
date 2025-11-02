@@ -11,12 +11,19 @@ import { DataFilters } from "@/components/data-filters";
 import { DataTable } from "@/components/tasks-data-table";
 import { columns } from "@/components/task-columns";
 import { DataKanban } from "@/components/tasks-data-kanban";
+import { DataCalendar } from "@/components/tasks-data-calendar";
 
 import { useTasksDataQuery } from "@/hooks/queries/useTasksDataQuery";
 import { useDataFilters } from "@/hooks/useDataFilters";
 import { useProjectId } from "@/app/(dashboard)/workspaces/hooks/use-project-id";
 
-import { ALL, UNKNOWN_ERROR_MESSAGE } from "@/lib/constants";
+import {
+  ALL,
+  CALENDAR,
+  KANBAN,
+  TABLE,
+  UNKNOWN_ERROR_MESSAGE,
+} from "@/lib/constants";
 
 export const TaskViewSwitcher = () => {
   const projectId = useProjectId();
@@ -40,12 +47,12 @@ export const TaskViewSwitcher = () => {
   }
 
   return (
-    <Tabs defaultValue="table" className="my-4">
+    <Tabs defaultValue={TABLE} className="my-4">
       <div className="flex items-center gap-8">
         <TabsList>
-          <TabsTrigger value="table">Table</TabsTrigger>
-          <TabsTrigger value="kanban">Kanban</TabsTrigger>
-          <TabsTrigger value="calendar">Calendar</TabsTrigger>
+          <TabsTrigger value={TABLE}>Table</TabsTrigger>
+          <TabsTrigger value={KANBAN}>Kanban</TabsTrigger>
+          <TabsTrigger value={CALENDAR}>Calendar</TabsTrigger>
         </TabsList>
         <CreateTaskModal>
           <Button size="sm" variant="secondary">
@@ -60,13 +67,19 @@ export const TaskViewSwitcher = () => {
           hideProjectFilter={true}
         />
       </div>
-      <TabsContent value="table">
-        <DataTable columns={columns} data={data.tasks} />
+      <TabsContent value={TABLE}>
+        <DataTable
+          columns={columns}
+          data={data.tasks}
+          setFilters={setFilters}
+        />
       </TabsContent>
-      <TabsContent value="kanban">
-        <DataKanban data={data} />
+      <TabsContent value={KANBAN}>
+        <DataKanban data={data} setFilters={setFilters} />
       </TabsContent>
-      <TabsContent value="calendar">{JSON.stringify(data.tasks)}</TabsContent>
+      <TabsContent value={CALENDAR}>
+        <DataCalendar data={data} setFilters={setFilters} />
+      </TabsContent>
     </Tabs>
   );
 };

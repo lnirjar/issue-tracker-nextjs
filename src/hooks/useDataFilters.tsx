@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { ALL, TaskStatus } from "@/lib/constants";
+import { ALL, TaskStatus, TaskView } from "@/lib/constants";
 
 export type DataFiltersState = {
   status: TaskStatus | typeof ALL;
   assigneeId: string;
   projectId: string;
   dueDate: Date | undefined;
+  view?: TaskView;
 };
 
 export const useDataFilters = () => {

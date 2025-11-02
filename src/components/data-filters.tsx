@@ -19,7 +19,13 @@ import { useWorkspaceProjectsDataQuery } from "@/hooks/queries/useWorkspaceProje
 import { DataFiltersState } from "@/hooks/useDataFilters";
 
 import { cn } from "@/lib/utils";
-import { TASK_STATUSES, TaskStatus, ALL } from "@/lib/constants";
+import {
+  TASK_STATUSES,
+  TaskStatus,
+  ALL,
+  KANBAN,
+  CALENDAR,
+} from "@/lib/constants";
 
 interface DataFiltersProps {
   hideProjectFilter?: boolean;
@@ -73,28 +79,30 @@ export const DataFilters = ({
 
   return (
     <div className="flex flex-col sm:flex-row justify-start items-center gap-2 sm:gap-4">
-      <Select
-        value={filters.status}
-        onValueChange={onStatusChange}
-        defaultValue={ALL}
-      >
-        <SelectTrigger className="w-full sm:w-auto h-8 [&>span]:w-full [&>span]:text-left">
-          <ListChecksIcon className="size-4 mr-2" />
-          <SelectValue
-            placeholder="All statuses"
-            className="w-full text-left"
-          />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value={ALL}>All statuses</SelectItem>
-          <SelectSeparator />
-          {TASK_STATUSES.map((status) => (
-            <SelectItem key={status} value={status}>
-              {status}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
+      {filters.view !== KANBAN && (
+        <Select
+          value={filters.status}
+          onValueChange={onStatusChange}
+          defaultValue={ALL}
+        >
+          <SelectTrigger className="w-full sm:w-auto h-8 [&>span]:w-full [&>span]:text-left">
+            <ListChecksIcon className="size-4 mr-2" />
+            <SelectValue
+              placeholder="All statuses"
+              className="w-full text-left"
+            />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value={ALL}>All statuses</SelectItem>
+            <SelectSeparator />
+            {TASK_STATUSES.map((status) => (
+              <SelectItem key={status} value={status}>
+                {status}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      )}
 
       <Select
         value={filters.assigneeId}
@@ -178,12 +186,14 @@ export const DataFilters = ({
         </Select>
       )}
 
-      <DatePicker
-        value={filters.dueDate}
-        onChange={onDateChange}
-        placeholder="Due date"
-        className="w-full sm:w-auto h-8"
-      />
+      {filters.view !== CALENDAR && (
+        <DatePicker
+          value={filters.dueDate}
+          onChange={onDateChange}
+          placeholder="Due date"
+          className="w-full sm:w-auto h-8"
+        />
+      )}
     </div>
   );
 };
