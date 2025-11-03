@@ -127,6 +127,8 @@ export async function DELETE(
       throw new createHttpError.Forbidden(NOT_WORKSPACE_MEMBER_MESSAGE);
     }
 
+    // TODO: delete project tasks
+
     const deletedProject = await WorkspaceProject.findByIdAndDelete(
       projectId
     ).exec();

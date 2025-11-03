@@ -119,6 +119,8 @@ export async function DELETE(
       throw new createHttpError.Forbidden(NOT_WORKSPACE_ADMIN_MESSAGE);
     }
 
+    // TODO: Remove this user as assignee from all tasks in the workspace and assign them to current user
+
     const deletedMember = await WorkspaceMember.findOneAndDelete({
       _id: memberId,
       workspace: workspaceId,

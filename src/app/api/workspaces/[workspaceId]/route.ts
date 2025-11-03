@@ -108,6 +108,9 @@ export async function DELETE(
       throw new createHttpError.Forbidden(NOT_WORKSPACE_ADMIN_MESSAGE);
     }
 
+    // TODO: Delete workspace projects and project avatars
+    // TODO: Delete workspace tasks
+
     const deletedWorkspace = await Workspace.findByIdAndDelete(
       workspaceId
     ).exec();
