@@ -78,7 +78,6 @@ export const EditTaskForm = ({
       { ...values, _id: task._id.toString() },
       {
         onSuccess: () => {
-          form.reset();
           closeModal?.();
         },
         onError: (error) => {

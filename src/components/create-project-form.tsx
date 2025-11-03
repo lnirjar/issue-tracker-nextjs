@@ -52,7 +52,6 @@ export const CreateProjectForm = ({
   function onSubmit(values: CreateProjectFormData) {
     const result = mutation.mutateAsync(values, {
       onSuccess: (data) => {
-        form.reset();
         const projectId = data.project._id.toString();
         const workspaceId = data.project.workspace.toString();
         router.push(`/workspaces/${workspaceId}/projects/${projectId}`);

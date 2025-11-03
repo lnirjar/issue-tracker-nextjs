@@ -52,7 +52,6 @@ export const CreateWorkspaceForm = ({
   function onSubmit(values: CreateWorkspaceFormData) {
     const result = mutation.mutateAsync(values, {
       onSuccess: (data) => {
-        form.reset();
         const workspaceId = data.workspace._id.toString();
         router.push(`/workspaces/${workspaceId}`);
         closeModal?.();

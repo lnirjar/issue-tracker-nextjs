@@ -2,7 +2,6 @@
 
 import React, { useRef } from "react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ImageIcon } from "lucide-react";
@@ -48,8 +47,6 @@ export const UpdateProjectForm = ({
     (project) => project._id.toString() === projectId
   );
 
-  const router = useRouter();
-
   const mutation = useUpdateProjectMutation();
 
   const form = useForm<CreateProjectFormData>({
@@ -61,11 +58,7 @@ export const UpdateProjectForm = ({
 
   function onSubmit(values: CreateProjectFormData) {
     const result = mutation.mutateAsync(values, {
-      onSuccess: (data) => {
-        form.reset();
-        const projectId = data.project._id.toString();
-        const workspaceId = data.project.workspace.toString();
-        router.push(`/workspaces/${workspaceId}/projects/${projectId}`);
+      onSuccess: () => {
         closeModal?.();
       },
       onError: (error) => {
