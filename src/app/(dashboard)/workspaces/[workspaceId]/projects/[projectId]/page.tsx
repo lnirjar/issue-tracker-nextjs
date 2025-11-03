@@ -8,7 +8,7 @@ export default async function ProjectPage() {
   return (
     <div>
       <ProjectDetails />
-      <TaskViewSwitcher />
+      <TaskViewSwitcher hideProjectFilter={true} />
     </div>
   );
 }

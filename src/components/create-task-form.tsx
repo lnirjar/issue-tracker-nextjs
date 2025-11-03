@@ -56,7 +56,7 @@ export const CreateTaskForm = ({
   const projectsQuery = useWorkspaceProjectsDataQuery({});
   const mutation = useCreateTaskMutation();
 
-  const projectId = useProjectId();
+  const projectIdFromURL = useProjectId();
   const workspaceId = useWorkspaceId();
 
   const form = useForm<CreateTaskFormData>({
@@ -65,9 +65,9 @@ export const CreateTaskForm = ({
       name: "",
       status: status,
       projectId: projectsQuery.data?.projects.find(
-        (project) => project._id.toString() === projectId
+        (project) => project._id.toString() === projectIdFromURL
       )
-        ? projectId
+        ? projectIdFromURL
         : undefined,
     },
   });
@@ -75,10 +75,13 @@ export const CreateTaskForm = ({
   function onSubmit(values: CreateTaskFormData) {
     const result = mutation.mutateAsync(values, {
       onSuccess: (data) => {
-        form.reset();
         const projectId = data.task.project._id.toString();
-        router.push(`/workspaces/${workspaceId}/projects/${projectId}`);
-        closeModal?.();
+
+        if (projectIdFromURL && projectIdFromURL !== projectId) {
+          router.push(`/workspaces/${workspaceId}/projects/${projectId}`);
+        } else {
+          closeModal?.();
+        }
       },
       onError: (error) => {
         console.error(error);

@@ -26,7 +26,13 @@ import {
   UNKNOWN_ERROR_MESSAGE,
 } from "@/lib/constants";
 
-export const TaskViewSwitcher = () => {
+interface TaskViewSwitcherProps {
+  hideProjectFilter?: boolean;
+}
+
+export const TaskViewSwitcher = ({
+  hideProjectFilter,
+}: TaskViewSwitcherProps) => {
   const projectId = useProjectId();
   const [filters, setFilters] = useDataFilters();
   const [view, setView] = useState(TABLE);
@@ -34,7 +40,11 @@ export const TaskViewSwitcher = () => {
   const { status, assigneeId, dueDate } = filters;
 
   const { data, isLoading, isPending, isError } = useTasksDataQuery({
-    projectId,
+    projectId: hideProjectFilter
+      ? projectId
+      : filters.projectId === ALL
+      ? undefined
+      : filters.projectId,
     status: status === ALL ? undefined : status,
     assigneeId: assigneeId === ALL ? undefined : assigneeId,
     dueDate: dueDate ? dueDate.toUTCString() : undefined,
@@ -66,7 +76,7 @@ export const TaskViewSwitcher = () => {
         <DataFilters
           filters={filters}
           setFilters={setFilters}
-          hideProjectFilter={true}
+          hideProjectFilter={hideProjectFilter}
           view={view}
         />
       </div>

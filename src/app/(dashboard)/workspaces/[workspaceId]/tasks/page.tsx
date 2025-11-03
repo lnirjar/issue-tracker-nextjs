@@ -1,6 +1,7 @@
 import { Types } from "mongoose";
 import { notFound } from "next/navigation";
 
+import { TaskViewSwitcher } from "@/components/task-view-switcher";
 import { dbConnect } from "@/lib/db";
 import { getWorkspaceMember } from "@/lib/workspace";
 
@@ -23,5 +24,9 @@ export default async function TasksPage({
     notFound();
   }
 
-  return <div>TasksPage {workspaceId}</div>;
+  return (
+    <div>
+      <TaskViewSwitcher hideProjectFilter={false} />
+    </div>
+  );
 }
