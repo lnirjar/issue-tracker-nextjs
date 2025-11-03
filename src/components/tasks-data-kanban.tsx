@@ -1,10 +1,4 @@
-import {
-  useCallback,
-  useEffect,
-  useState,
-  Dispatch,
-  SetStateAction,
-} from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import {
   DragDropContext,
@@ -19,15 +13,12 @@ import { TaskKanbanCard } from "@/components/task-kanban-card";
 
 import { GetTasksResponse } from "@/hooks/queries/useTasksDataQuery";
 import { useUpdateTaskMutation } from "@/hooks/mutations/useUpdateTaskMutation";
-import { DataFiltersState } from "@/hooks/useDataFilters";
 
 import {
-  ALL,
   BACKLOG,
   DONE,
   IN_PROGRESS,
   IN_REVIEW,
-  KANBAN,
   TASK_STATUSES,
   TaskStatus,
   TODO,
@@ -37,7 +28,6 @@ import {
 
 interface DataKanbanProps {
   data: GetTasksResponse;
-  setFilters: Dispatch<SetStateAction<DataFiltersState>>;
 }
 
 type TasksState = {
@@ -64,16 +54,12 @@ const getInitialTasksState = (data: GetTasksResponse) => {
   return initialTasks;
 };
 
-export const DataKanban = ({ data, setFilters }: DataKanbanProps) => {
+export const DataKanban = ({ data }: DataKanbanProps) => {
   const [tasks, setTasks] = useState<TasksState>(getInitialTasksState(data));
 
   useEffect(() => {
     setTasks(getInitialTasksState(data));
   }, [data]);
-
-  useEffect(() => {
-    setFilters((prev) => ({ ...prev, status: ALL, view: KANBAN }));
-  }, [setFilters]);
 
   const mutation = useUpdateTaskMutation();
 

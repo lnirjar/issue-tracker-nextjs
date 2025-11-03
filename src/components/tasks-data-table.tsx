@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, Dispatch, SetStateAction, useEffect } from "react";
+import { useState } from "react";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -24,26 +24,17 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-import { DataFiltersState } from "@/hooks/useDataFilters";
-import { TABLE } from "@/lib/constants";
-
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  setFilters: Dispatch<SetStateAction<DataFiltersState>>;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
-  setFilters,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-
-  useEffect(() => {
-    setFilters((prev) => ({ ...prev, view: TABLE }));
-  }, [setFilters]);
 
   const table = useReactTable({
     data,

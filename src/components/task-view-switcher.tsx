@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { PlusIcon } from "lucide-react";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -28,6 +29,7 @@ import {
 export const TaskViewSwitcher = () => {
   const projectId = useProjectId();
   const [filters, setFilters] = useDataFilters();
+  const [view, setView] = useState(TABLE);
 
   const { status, assigneeId, dueDate } = filters;
 
@@ -47,7 +49,7 @@ export const TaskViewSwitcher = () => {
   }
 
   return (
-    <Tabs defaultValue={TABLE} className="my-4">
+    <Tabs value={view} onValueChange={setView} className="my-4">
       <div className="flex items-center gap-8">
         <TabsList>
           <TabsTrigger value={TABLE}>Table</TabsTrigger>
@@ -65,20 +67,17 @@ export const TaskViewSwitcher = () => {
           filters={filters}
           setFilters={setFilters}
           hideProjectFilter={true}
+          view={view}
         />
       </div>
       <TabsContent value={TABLE}>
-        <DataTable
-          columns={columns}
-          data={data.tasks}
-          setFilters={setFilters}
-        />
+        <DataTable columns={columns} data={data.tasks} />
       </TabsContent>
       <TabsContent value={KANBAN}>
-        <DataKanban data={data} setFilters={setFilters} />
+        <DataKanban data={data} />
       </TabsContent>
       <TabsContent value={CALENDAR}>
-        <DataCalendar data={data} setFilters={setFilters} />
+        <DataCalendar data={data} />
       </TabsContent>
     </Tabs>
   );

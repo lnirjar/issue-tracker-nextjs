@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useEffect } from "react";
 import { FolderIcon, ListChecksIcon, UserIcon } from "lucide-react";
 
 import {
@@ -29,17 +29,27 @@ import {
 
 interface DataFiltersProps {
   hideProjectFilter?: boolean;
+  view?: string;
   filters: DataFiltersState;
   setFilters: Dispatch<SetStateAction<DataFiltersState>>;
 }
 
 export const DataFilters = ({
   hideProjectFilter,
+  view,
   filters,
   setFilters,
 }: DataFiltersProps) => {
   const membersQuery = useWorkspaceMembersDataQuery({});
   const projectsQuery = useWorkspaceProjectsDataQuery({});
+
+  useEffect(() => {
+    if (view === KANBAN) {
+      setFilters((prev) => ({ ...prev, status: ALL }));
+    } else if (view === CALENDAR) {
+      setFilters((prev) => ({ ...prev, dueDate: undefined }));
+    }
+  }, [view, setFilters]);
 
   const onStatusChange = (value: string) => {
     setFilters((prev) => ({
@@ -79,7 +89,7 @@ export const DataFilters = ({
 
   return (
     <div className="flex flex-col sm:flex-row justify-start items-center gap-2 sm:gap-4">
-      {filters.view !== KANBAN && (
+      {view !== KANBAN && (
         <Select
           value={filters.status}
           onValueChange={onStatusChange}
@@ -186,7 +196,7 @@ export const DataFilters = ({
         </Select>
       )}
 
-      {filters.view !== CALENDAR && (
+      {view !== CALENDAR && (
         <DatePicker
           value={filters.dueDate}
           onChange={onDateChange}

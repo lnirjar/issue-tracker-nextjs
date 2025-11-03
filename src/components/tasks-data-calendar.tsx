@@ -1,4 +1,4 @@
-import { useEffect, useState, Dispatch, SetStateAction } from "react";
+import { useState } from "react";
 import { Calendar, dateFnsLocalizer } from "react-big-calendar";
 import {
   format,
@@ -11,25 +11,17 @@ import {
 } from "date-fns";
 import { enUS } from "date-fns/locale";
 
-import { DataFiltersState } from "@/hooks/useDataFilters";
 import { GetTasksResponse } from "@/hooks/queries/useTasksDataQuery";
 import { EventCard } from "@/components/tasks-event-card";
 import { CalendarToolbar } from "@/components/tasks-calendar-custom-toolbar";
 
-import {
-  PREV,
-  NEXT,
-  TODAY,
-  CalendarNavigationAction,
-  CALENDAR,
-} from "@/lib/constants";
+import { PREV, NEXT, TODAY, CalendarNavigationAction } from "@/lib/constants";
 
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "./tasks-data-calendar.css";
 
 interface DataCaledarProps {
   data: GetTasksResponse;
-  setFilters: Dispatch<SetStateAction<DataFiltersState>>;
 }
 
 const locales = {
@@ -44,12 +36,8 @@ const localizer = dateFnsLocalizer({
   locales,
 });
 
-export const DataCalendar = ({ data, setFilters }: DataCaledarProps) => {
+export const DataCalendar = ({ data }: DataCaledarProps) => {
   const [value, setValue] = useState(new Date());
-
-  useEffect(() => {
-    setFilters((prev) => ({ ...prev, view: CALENDAR, dueDate: undefined }));
-  }, [setFilters]);
 
   const events = data.tasks.map((task) => ({
     start: new Date(task.dueDate),
