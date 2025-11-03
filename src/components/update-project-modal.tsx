@@ -33,7 +33,7 @@ export const UpdateProjectModal = ({
           <DialogDescription>Edit a project</DialogDescription>
         </DialogHeader>
         <UpdateProjectForm closeModal={closeModal} />
-        <Separator className="my-2" />
+        <Separator className="opacity-0" />
         <DeleteProjectFormCard />
       </DialogContent>
     </Dialog>

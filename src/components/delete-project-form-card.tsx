@@ -18,8 +18,8 @@ export const DeleteProjectFormCard = () => {
     <AlertDialog>
       <AlertDialogTrigger asChild>
         <Button
-          variant="outline"
-          className="text-destructive border-destructive hover:text-destructive hover:bg-red-50"
+          variant="link"
+          className="text-destructive border-destructive hover:text-destructive pl-0 w-fit"
         >
           Delete Project
         </Button>
