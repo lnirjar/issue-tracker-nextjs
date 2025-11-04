@@ -3,6 +3,7 @@ import { UploadApiResponse } from "cloudinary";
 import createHttpError from "http-errors";
 
 import { WorkspaceProject } from "@/models/project";
+import { Task } from "@/models/task";
 import { updateProjectFormSchema } from "@/schemas/project";
 import { dbConnect } from "@/lib/db";
 import { getCurrentUser } from "@/lib/user";
@@ -14,6 +15,7 @@ import {
 import { handleError } from "@/lib/error";
 import {
   AUTH_REQUIRED_MESSAGE,
+  DELETE_PROJECT_ERROR_MESSAGE,
   NOT_WORKSPACE_MEMBER_MESSAGE,
   PROJECT_NOT_FOUND_MESSAGE,
 } from "@/lib/constants";
@@ -127,17 +129,39 @@ export async function DELETE(
       throw new createHttpError.Forbidden(NOT_WORKSPACE_MEMBER_MESSAGE);
     }
 
-    // TODO: delete project tasks
+    const deleteTasks = Task.deleteMany({ project: project._id }).exec();
 
-    const deletedProject = await WorkspaceProject.findByIdAndDelete(
+    const deleteProject = WorkspaceProject.findByIdAndDelete(projectId).exec();
+
+    const deleteProjectAvatar = deleteWorkspaceProjectAvatarFromCloudinary(
       projectId
-    ).exec();
+    ).catch(() => {
+      console.error(`Failed to delete avatar for project id ${projectId}`);
+    });
 
-    if (!deletedProject) {
-      throw new createHttpError.Forbidden(PROJECT_NOT_FOUND_MESSAGE);
+    const results = await Promise.allSettled([
+      deleteProject,
+      deleteTasks,
+      deleteProjectAvatar,
+    ]);
+
+    const deletedProject =
+      results[0].status === "fulfilled" ? results[0].value : null;
+
+    const failedDeletions = results.filter(
+      (result) => result.status === "rejected"
+    );
+    if (failedDeletions.length > 0) {
+      console.error(
+        `${failedDeletions.length} deletions failed during project deletion`
+      );
     }
 
-    await deleteWorkspaceProjectAvatarFromCloudinary(projectId);
+    if (!deletedProject) {
+      throw new createHttpError.InternalServerError(
+        DELETE_PROJECT_ERROR_MESSAGE
+      );
+    }
 
     return Response.json({ project: deletedProject }, { status: 200 });
   } catch (error) {

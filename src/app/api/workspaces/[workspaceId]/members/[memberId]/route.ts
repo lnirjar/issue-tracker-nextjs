@@ -2,6 +2,8 @@ import { Types } from "mongoose";
 import createHttpError from "http-errors";
 
 import { WorkspaceMember } from "@/models/workspace-member";
+import { Task } from "@/models/task";
+import { WorkspaceProject } from "@/models/project";
 import { changeMemberRoleSchema } from "@/schemas/member";
 import { dbConnect } from "@/lib/db";
 import { getCurrentUser } from "@/lib/user";
@@ -102,7 +104,23 @@ export async function DELETE(
       throw new createHttpError.BadRequest("Invalid member id");
     }
 
-    const userMember = await getWorkspaceMember(workspaceId, user);
+    const userMemberPromise = getWorkspaceMember(workspaceId, user);
+    const memberToDeletePromise = WorkspaceMember.findById(memberId);
+    const projectsPromise = WorkspaceProject.find({ workspace: workspaceId })
+      .select("_id")
+      .exec();
+
+    const [userMember, memberToDelete, projects] = await Promise.all([
+      userMemberPromise,
+      memberToDeletePromise,
+      projectsPromise,
+    ]);
+
+    if (!memberToDelete) {
+      throw new createHttpError.NotFound("Member to be removed not found");
+    }
+
+    const projectIds = projects.map((project) => project._id);
 
     if (userMember?._id.toString() === memberId) {
       if (userMember.role === ADMIN) {
@@ -111,7 +129,41 @@ export async function DELETE(
         );
       }
 
-      const deletedMember = await WorkspaceMember.findByIdAndDelete(memberId);
+      const adminMember = await WorkspaceMember.findOne({
+        workspace: workspaceId,
+        role: ADMIN,
+      }).exec();
+
+      if (!adminMember) {
+        throw new createHttpError.InternalServerError(
+          "Workspace admin not found for task reassignment"
+        );
+      }
+
+      const updateTaskAssignees = Task.updateMany(
+        { project: { $in: projectIds }, assignee: memberToDelete.user },
+        { $set: { assignee: adminMember.user } }
+      ).exec();
+
+      const deleteMember = WorkspaceMember.findByIdAndDelete(memberId).exec();
+
+      const results = await Promise.allSettled([
+        deleteMember,
+        updateTaskAssignees,
+      ]);
+
+      const deletedMember =
+        results[0].status === "fulfilled" ? results[0].value : null;
+
+      const failedDeletions = results.filter(
+        (result) => result.status === "rejected"
+      );
+      if (failedDeletions.length > 0) {
+        console.error(
+          `${failedDeletions.length} deletions failed during workspace member deletion`
+        );
+      }
+
       return Response.json({ member: deletedMember }, { status: 200 });
     }
 
@@ -119,15 +171,35 @@ export async function DELETE(
       throw new createHttpError.Forbidden(NOT_WORKSPACE_ADMIN_MESSAGE);
     }
 
-    // TODO: Remove this user as assignee from all tasks in the workspace and assign them to current user
+    const updateTaskAssignees = Task.updateMany(
+      { project: { $in: projectIds }, assignee: memberToDelete.user },
+      { $set: { assignee: user._id } }
+    ).exec();
 
-    const deletedMember = await WorkspaceMember.findOneAndDelete({
+    const deleteMember = WorkspaceMember.findOneAndDelete({
       _id: memberId,
       workspace: workspaceId,
       user: { $ne: user._id },
-    });
+    }).exec();
 
-    return Response.json({ member: deletedMember }, { status: 200 });
+    const results = await Promise.allSettled([
+      deleteMember,
+      updateTaskAssignees,
+    ]);
+
+    const deletedMember =
+      results[0].status === "fulfilled" ? results[0].value : null;
+
+    const failedDeletions = results.filter(
+      (result) => result.status === "rejected"
+    );
+    if (failedDeletions.length > 0) {
+      console.error(
+        `${failedDeletions.length} deletions failed during workspace member deletion`
+      );
+    }
+
+    return Response.json({ member: deletedMember, results }, { status: 200 });
   } catch (error) {
     const { message, status } = handleError(error);
     return Response.json({ message }, { status });

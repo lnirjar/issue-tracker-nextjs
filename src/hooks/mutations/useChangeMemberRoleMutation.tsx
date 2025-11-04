@@ -1,9 +1,10 @@
 "use client";
 
 import axios from "axios";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { WorkspaceMember } from "@/models/workspace-member";
+import { useWorkspaceId } from "@/app/(dashboard)/workspaces/hooks/use-workspace-id";
 import { Role } from "@/lib/constants";
 
 interface ChangeMemberRoleResponse {
@@ -28,7 +29,15 @@ const changeMemberRole = async ({
 };
 
 export const useChangeMemberRoleMutation = () => {
+  const queryClient = useQueryClient();
+  const workspaceId = useWorkspaceId();
+
   return useMutation({
     mutationFn: changeMemberRole,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["workspace-members", workspaceId],
+      });
+    },
   });
 };

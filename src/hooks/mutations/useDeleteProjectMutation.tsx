@@ -5,6 +5,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { WorkspaceProject } from "@/models/project";
 import { GetWorkspaceProjectsResponse } from "@/hooks/queries/useWorkspaceProjectsDataQuery";
+import { GetTasksResponse, tasksKey } from "@/hooks/queries/useTasksDataQuery";
 import { useWorkspaceId } from "@/app/(dashboard)/workspaces/hooks/use-workspace-id";
 import { useProjectId } from "@/app/(dashboard)/workspaces/hooks/use-project-id";
 
@@ -43,6 +44,17 @@ export const useDeleteProjectMutation = () => {
 
       queryClient.invalidateQueries({
         queryKey: ["workspace-projects", workspaceId],
+      });
+
+      queryClient.setQueryData<GetTasksResponse>(
+        tasksKey({ workspaceId, projectId }),
+        () => {
+          return { tasks: [] };
+        }
+      );
+
+      queryClient.invalidateQueries({
+        queryKey: ["tasks", workspaceId],
       });
     },
   });

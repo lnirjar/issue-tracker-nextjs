@@ -5,6 +5,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { Workspace } from "@/models/workspace";
 import { GetUserWorkspacesResponse } from "@/hooks/queries/useUserWorkpacesDataQuery";
+import { GetWorkspaceProjectsResponse } from "@/hooks/queries/useWorkspaceProjectsDataQuery";
+import { GetTasksResponse, tasksKey } from "@/hooks/queries/useTasksDataQuery";
 import { useWorkspaceId } from "@/app/(dashboard)/workspaces/hooks/use-workspace-id";
 
 interface DeleteWorkspaceResponse {
@@ -40,6 +42,28 @@ export const useDeleteWorkspaceMutation = () => {
       );
 
       queryClient.invalidateQueries({ queryKey: ["workspaces"] });
+
+      queryClient.setQueryData<GetWorkspaceProjectsResponse>(
+        ["workspace-projects", workspaceId],
+        () => {
+          return { projects: [] };
+        }
+      );
+
+      queryClient.invalidateQueries({
+        queryKey: ["workspace-projects", workspaceId],
+      });
+
+      queryClient.setQueryData<GetTasksResponse>(
+        tasksKey({ workspaceId }),
+        () => {
+          return { tasks: [] };
+        }
+      );
+
+      queryClient.invalidateQueries({
+        queryKey: ["tasks", workspaceId],
+      });
     },
   });
 };

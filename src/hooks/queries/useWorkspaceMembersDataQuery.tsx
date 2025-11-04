@@ -34,7 +34,7 @@ export const useWorkspaceMembersDataQuery = ({
   const workspaceId = useWorkspaceId();
 
   return useQuery({
-    queryKey: ["workspace-menbers", workspaceId],
+    queryKey: ["workspace-members", workspaceId],
     queryFn: () => getWorkpaceMembers(workspaceId),
     enabled: isMounted && enabled,
   });
