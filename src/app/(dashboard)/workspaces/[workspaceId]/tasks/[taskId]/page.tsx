@@ -1,8 +1,10 @@
 import { Types } from "mongoose";
 import { notFound } from "next/navigation";
 
+import { WorkspaceNotFoundAlert } from "@/components/workspace-not-found-alert";
 import { dbConnect } from "@/lib/db";
 import { getWorkspaceMember } from "@/lib/workspace";
+import { getTaskById } from "@/lib/task";
 
 export default async function TaskDetailsPage({
   params,
@@ -14,7 +16,7 @@ export default async function TaskDetailsPage({
   const { workspaceId, taskId } = await params;
 
   if (!Types.ObjectId.isValid(workspaceId)) {
-    notFound();
+    return <WorkspaceNotFoundAlert />;
   }
 
   if (!Types.ObjectId.isValid(taskId)) {
@@ -24,6 +26,12 @@ export default async function TaskDetailsPage({
   const member = await getWorkspaceMember(workspaceId);
 
   if (!member) {
+    return <WorkspaceNotFoundAlert />;
+  }
+
+  const task = await getTaskById(taskId);
+
+  if (!task) {
     notFound();
   }
 
