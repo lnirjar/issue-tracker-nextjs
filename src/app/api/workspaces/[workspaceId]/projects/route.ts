@@ -5,7 +5,7 @@ import { WorkspaceProject } from "@/models/project";
 import { createProjectFormSchema } from "@/schemas/project";
 import { dbConnect } from "@/lib/db";
 import { getCurrentUser } from "@/lib/user";
-import { getWorkspaceMember, getWorkspaceProjects } from "@/lib/workspace";
+import { getWorkspaceMember } from "@/lib/workspace";
 import { uploadWorkspaceProjectAvatarToCloudinary } from "@/lib/cloudinary";
 import { handleError } from "@/lib/error";
 import {
@@ -18,8 +18,30 @@ export async function GET(
   { params }: { params: Promise<{ workspaceId: string }> }
 ) {
   try {
+    await dbConnect();
+
+    const user = await getCurrentUser();
+
+    if (!user) {
+      return Response.json({ message: AUTH_REQUIRED_MESSAGE }, { status: 401 });
+    }
+
     const { workspaceId } = await params;
-    const projects = await getWorkspaceProjects(workspaceId);
+
+    if (!Types.ObjectId.isValid(workspaceId)) {
+      throw new createHttpError.BadRequest("Invalid workspace id");
+    }
+
+    const member = await getWorkspaceMember(workspaceId);
+
+    if (!member) {
+      throw new createHttpError.Forbidden(NOT_WORKSPACE_MEMBER_MESSAGE);
+    }
+
+    const projects = await WorkspaceProject.find({
+      workspace: workspaceId,
+    }).exec();
+
     return Response.json({ projects }, { status: 200 });
   } catch (error) {
     const { message, status } = handleError(error);
