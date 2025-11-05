@@ -1,11 +1,11 @@
-import { DONE, TaskStatus } from "@/lib/constants";
-import { cn } from "@/lib/utils";
 import {
   format,
   differenceInDays,
   isToday,
   isPast,
   isThisYear,
+  formatDistanceToNow,
+  endOfDay,
 } from "date-fns";
 
 import {
@@ -15,14 +15,19 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
+import { cn } from "@/lib/utils";
+import { DONE, TaskStatus } from "@/lib/constants";
+
 export const TaskDate = ({
   date,
   status,
   className,
+  showFullDate = false,
 }: {
   date: string | Date;
   status: TaskStatus;
   className?: string;
+  showFullDate?: boolean;
 }) => {
   const today = new Date();
   const endDate = new Date(date);
@@ -30,6 +35,9 @@ export const TaskDate = ({
 
   let textColor = "text-muted-foreground";
   let formattedDate: string;
+  const formattedTootipDate = showFullDate
+    ? formatDistanceToNow(endOfDay(endDate), { addSuffix: true })
+    : format(endDate, "MMMM d, yyyy");
 
   if (isToday(endDate)) {
     formattedDate = "Today";
@@ -50,6 +58,10 @@ export const TaskDate = ({
     textColor = "text-muted-foreground";
   }
 
+  if (showFullDate) {
+    formattedDate = format(endDate, "EEEE, MMMM d, yyyy");
+  }
+
   return (
     <TooltipProvider>
       <Tooltip>
@@ -57,7 +69,7 @@ export const TaskDate = ({
           <span className={cn(textColor, className)}>{formattedDate}</span>
         </TooltipTrigger>
         <TooltipContent>
-          <span>{format(endDate, "MMMM d, yyyy")}</span>
+          <span>{formattedTootipDate}</span>
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>

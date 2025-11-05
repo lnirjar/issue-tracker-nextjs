@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 
 import {
   Dialog,
@@ -14,15 +14,20 @@ import { GetTasksResponse } from "@/hooks/queries/useTasksDataQuery";
 
 export const EditTaskModal = ({
   task,
-  open,
-  setOpen,
+  open: controlledOpen,
+  setOpen: setControlledOpen,
   children,
 }: {
   task: GetTasksResponse["tasks"][number];
-  open: boolean;
-  setOpen: Dispatch<SetStateAction<boolean>>;
+  open?: boolean;
+  setOpen?: Dispatch<SetStateAction<boolean>>;
   children?: React.ReactNode;
 }) => {
+  const [uncontrolledOpen, setUncontrolledOpen] = useState(false);
+
+  const open = controlledOpen ?? uncontrolledOpen;
+  const setOpen = setControlledOpen ?? setUncontrolledOpen;
+
   const closeModal = () => {
     setOpen(false);
   };

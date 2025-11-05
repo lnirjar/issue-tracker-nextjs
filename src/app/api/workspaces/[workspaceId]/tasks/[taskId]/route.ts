@@ -146,11 +146,12 @@ export async function PATCH(
 
     const payload: UpdateQuery<Task> = {};
     if (name) payload.name = name;
-    if (description) payload.description = description;
     if (status) payload.status = status;
     if (dueDate) payload.dueDate = dueDate;
     if (assignee) payload.assignee = assignee.user._id;
     if (project) payload.project = project._id;
+    if (description !== undefined && description !== null)
+      payload.description = description;
 
     const updatedTask = await Task.findByIdAndUpdate(task._id, payload, {
       new: true,

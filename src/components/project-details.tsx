@@ -4,13 +4,14 @@ import { PencilIcon } from "lucide-react";
 
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
+
 import { WorkspaceAvatar } from "@/components/workspace-avatar";
+import { UpdateProjectModal } from "@/components/update-project-modal";
 
 import { useProjectId } from "@/app/(dashboard)/workspaces/hooks/use-project-id";
 import { useWorkspaceProjectsDataQuery } from "@/hooks/queries/useWorkspaceProjectsDataQuery";
 
 import { UNKNOWN_ERROR_MESSAGE } from "@/lib/constants";
-import { UpdateProjectModal } from "@/components/update-project-modal";
 
 export const ProjectDetails = () => {
   const projectId = useProjectId();
