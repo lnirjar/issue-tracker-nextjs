@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { RiAddCircleFill } from "react-icons/ri";
 
@@ -20,17 +19,11 @@ import { UNKNOWN_ERROR_MESSAGE } from "@/lib/constants";
 import { useWorkspaceId } from "@/app/(dashboard)/workspaces/hooks/use-workspace-id";
 
 export const WorkspaceSwitcher = () => {
-  const [isMounted, setIsMounted] = useState(false);
-
   const router = useRouter();
 
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  const { data, isLoading, isError, isPending } = useUserWorkspacesDataQuery({
-    enabled: isMounted,
-  });
+  const { data, isLoading, isError, isPending } = useUserWorkspacesDataQuery(
+    {}
+  );
 
   const workspaceId = useWorkspaceId();
 

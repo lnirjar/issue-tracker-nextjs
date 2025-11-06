@@ -1,6 +1,7 @@
 "use client";
 
 import axios from "axios";
+import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 
 import { Workspace } from "@/models/workspace";
@@ -18,13 +19,19 @@ const getUserWorkpaces = async () => {
 };
 
 export const useUserWorkspacesDataQuery = ({
-  enabled,
+  enabled = true,
 }: {
-  enabled: boolean;
+  enabled?: boolean;
 }) => {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   return useQuery({
     queryKey: ["workspaces"],
     queryFn: getUserWorkpaces,
-    enabled,
+    enabled: isMounted && enabled,
   });
 };

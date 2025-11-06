@@ -1,7 +1,7 @@
 "use client";
 
 import axios from "axios";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { WorkspaceInvitation } from "@/models/workspace-invitation";
 import { useWorkspaceId } from "@/app/(dashboard)/workspaces/hooks/use-workspace-id";
@@ -19,9 +19,15 @@ const resetWorkspaceInvite = async (workspaceId: string) => {
 };
 
 export const useResetWorkspaceInviteMutation = () => {
+  const queryClient = useQueryClient();
   const workspaceId = useWorkspaceId();
 
   return useMutation({
     mutationFn: () => resetWorkspaceInvite(workspaceId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["invitation", workspaceId],
+      });
+    },
   });
 };
