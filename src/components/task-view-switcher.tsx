@@ -51,7 +51,21 @@ export const TaskViewSwitcher = ({
   });
 
   if (isLoading || isPending) {
-    return <Skeleton className="w-full h-40" />;
+    return (
+      <div className="my-4">
+        <div className="flex gap-8 h-9">
+          <Skeleton className="h-full w-56" />
+          <Skeleton className="h-full w-20" />
+        </div>
+        <div className="flex flex-col sm:flex-row justify-start items-center my-4 gap-2 sm:gap-4">
+          <Skeleton className="h-8 w-full sm:w-36" />
+          <Skeleton className="h-8 w-full sm:w-36" />
+          <Skeleton className="h-8 w-full sm:w-36" />
+          {!hideProjectFilter && <Skeleton className="h-8 w-full sm:w-36" />}
+        </div>
+        <Skeleton className="w-full h-80 my-4" />
+      </div>
+    );
   }
 
   if (isError) {
