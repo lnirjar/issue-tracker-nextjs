@@ -2,8 +2,10 @@ import { Types } from "mongoose";
 import { UploadApiResponse } from "cloudinary";
 import createHttpError from "http-errors";
 
+import "@/models";
 import { WorkspaceProject } from "@/models/project";
 import { Task } from "@/models/task";
+
 import { updateProjectFormSchema } from "@/schemas/project";
 import { dbConnect } from "@/lib/db";
 import { getCurrentUser } from "@/lib/user";

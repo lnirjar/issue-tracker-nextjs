@@ -1,3 +1,4 @@
+import "@/models";
 import { Task } from "@/models/task";
 import { dbConnect } from "@/lib/db";
 

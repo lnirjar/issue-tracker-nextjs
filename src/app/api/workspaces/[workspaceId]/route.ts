@@ -1,10 +1,12 @@
 import createHttpError from "http-errors";
 import { UploadApiResponse } from "cloudinary";
 
+import "@/models";
 import { Workspace } from "@/models/workspace";
 import { WorkspaceMember } from "@/models/workspace-member";
 import { WorkspaceProject } from "@/models/project";
 import { Task } from "@/models/task";
+
 import { updateWorkspaceFormSchema } from "@/schemas/workspace";
 import { dbConnect } from "@/lib/db";
 import { getCurrentUser } from "@/lib/user";

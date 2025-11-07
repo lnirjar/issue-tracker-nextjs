@@ -3,6 +3,7 @@ import "server-only";
 import mongoose from "mongoose";
 import createHttpError from "http-errors";
 
+import "@/models";
 import { User } from "@/models/user";
 import { Workspace } from "@/models/workspace";
 import { WorkspaceMember } from "@/models/workspace-member";
@@ -27,6 +28,8 @@ export const getUserWorkspaces = async (currentUser?: User) => {
     throw new createHttpError.Unauthorized(AUTH_REQUIRED_MESSAGE);
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+  Workspace;
   const userWorkspaces = await WorkspaceMember.find({
     user: user._id,
   })

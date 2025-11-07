@@ -1,6 +1,7 @@
 import { Types, UpdateQuery } from "mongoose";
 import createHttpError from "http-errors";
 
+import "@/models";
 import { WorkspaceProject } from "@/models/project";
 import { Task } from "@/models/task";
 import { User } from "@/models/user";

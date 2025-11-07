@@ -1,3 +1,4 @@
+import "@/models";
 import { WorkspaceProject } from "@/models/project";
 import { dbConnect } from "@/lib/db";
 

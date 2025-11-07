@@ -2,9 +2,11 @@ import { RootFilterQuery, Types } from "mongoose";
 import createHttpError from "http-errors";
 import { NextRequest } from "next/server";
 
+import "@/models";
 import { WorkspaceProject } from "@/models/project";
 import { Task } from "@/models/task";
 import { User } from "@/models/user";
+
 import { getTasksQuerySchema } from "@/schemas/task";
 import { createTaskFormSchema } from "@/schemas/task";
 

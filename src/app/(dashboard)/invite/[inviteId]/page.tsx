@@ -1,10 +1,12 @@
 import { Types } from "mongoose";
 import { notFound, redirect } from "next/navigation";
 
+import "@/models";
 import { Workspace } from "@/models/workspace";
 import { WorkspaceInvitation } from "@/models/workspace-invitation";
 
 import { JoinWorkspaceFormCard } from "@/components/join-workspace-form-card";
+
 import { getWorkspaceMember } from "@/lib/workspace";
 import { dbConnect } from "@/lib/db";
 
