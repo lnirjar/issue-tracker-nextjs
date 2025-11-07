@@ -1,6 +1,8 @@
+import "@/models";
 import { Workspace } from "@/models/workspace";
 import { WorkspaceMember } from "@/models/workspace-member";
 import { WorkspaceInvitation } from "@/models/workspace-invitation";
+
 import { createWorkspaceFormSchema } from "@/schemas/workspace";
 import { dbConnect } from "@/lib/db";
 import { getCurrentUser } from "@/lib/user";

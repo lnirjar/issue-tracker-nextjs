@@ -1,6 +1,7 @@
 import { Types } from "mongoose";
 import createHttpError from "http-errors";
 
+import "@/models";
 import { Workspace } from "@/models/workspace";
 import { WorkspaceInvitation } from "@/models/workspace-invitation";
 import { WorkspaceMember } from "@/models/workspace-member";

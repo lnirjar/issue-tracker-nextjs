@@ -1,6 +1,8 @@
 import createHttpError from "http-errors";
 
+import "@/models";
 import { WorkspaceInvitation } from "@/models/workspace-invitation";
+
 import { dbConnect } from "@/lib/db";
 import { getCurrentUser } from "@/lib/user";
 import { getWorkspaceMember } from "@/lib/workspace";

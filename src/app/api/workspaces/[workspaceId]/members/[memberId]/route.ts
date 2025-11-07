@@ -1,9 +1,11 @@
 import { Types } from "mongoose";
 import createHttpError from "http-errors";
 
+import "@/models";
 import { WorkspaceMember } from "@/models/workspace-member";
 import { Task } from "@/models/task";
 import { WorkspaceProject } from "@/models/project";
+
 import { changeMemberRoleSchema } from "@/schemas/member";
 import { dbConnect } from "@/lib/db";
 import { getCurrentUser } from "@/lib/user";

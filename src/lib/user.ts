@@ -1,6 +1,8 @@
-import { dbConnect } from "@/lib/db";
-import { User } from "@/models/user";
 import { auth } from "@clerk/nextjs/server";
+
+import "@/models";
+import { User } from "@/models/user";
+import { dbConnect } from "@/lib/db";
 
 export const getCurrentUser = async () => {
   const { userId: clerkId } = await auth();
