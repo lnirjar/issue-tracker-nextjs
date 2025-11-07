@@ -31,9 +31,11 @@ export default async function WorkspacePage({
   return (
     <div className="flex flex-col gap-8">
       <WorkspaceDetails />
-      <InviteWorkspaceMembersCard />
       <WorkspaceAnalyticsCardsContainer />
-      <TasksChartPieDonutText />
+      <div className="flex flex-col md:flex-row gap-6 md:gap-5">
+        <TasksChartPieDonutText />
+        <InviteWorkspaceMembersCard />
+      </div>
     </div>
   );
 }

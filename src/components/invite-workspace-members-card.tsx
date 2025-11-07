@@ -51,7 +51,7 @@ export const InviteWorkspaceMembersCard = () => {
   const fullInviteLink = `${baseUrl}/invite/${data.invitation._id.toString()}`;
 
   return (
-    <Card className="w-full max-w-2xl">
+    <Card className="flex-1 min-w-80">
       <CardHeader>
         <CardTitle>Invite Members</CardTitle>
         <CardDescription>

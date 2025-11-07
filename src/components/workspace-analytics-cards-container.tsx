@@ -57,7 +57,7 @@ export const WorkspaceAnalyticsCardsContainer = () => {
 
   return (
     <ScrollArea>
-      <div className="flex gap-2">
+      <div className="flex gap-5 min-w-full justify-between">
         <WorkspaceAnalyticsCard title="Total Members" count={totalMembers} />
         <WorkspaceAnalyticsCard title="Total Projects" count={totalProjects} />
         <WorkspaceAnalyticsCard title="Total Tasks" count={totalTasks} />

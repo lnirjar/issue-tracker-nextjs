@@ -110,7 +110,7 @@ export function TasksChartPieDonutText() {
   ];
 
   return (
-    <Card className="flex flex-col">
+    <Card className="flex flex-col w-full md:w-auto">
       <CardHeader className="items-center pb-0">
         <CardTitle>Task Status Overview</CardTitle>
         <CardDescription>
