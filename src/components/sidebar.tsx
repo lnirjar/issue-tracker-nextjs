@@ -18,10 +18,10 @@ export const Sidebar = () => {
         <Image
           src="/logo.svg"
           alt="logo"
-          width={336}
-          height={141}
+          width={231}
+          height={43}
           priority
-          className="w-16"
+          className="w-48 max-w-full"
         />
       </Link>
       <Separator className="my-4" />
