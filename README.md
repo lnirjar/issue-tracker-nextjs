@@ -1,36 +1,150 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Issue Tracker — Jira Clone (Next.js 15, MongoDB)
 
-## Getting Started
+A full-stack **issue tracking and project management** application inspired by Jira.  
+Built with **Next.js 15, React, MongoDB, React Query, Clerk, Cloudinary, Shadcn UI**, and **TypeScript**.
 
-First, run the development server:
+This app allows teams to collaborate seamlessly using **Workspaces, Projects, Tasks, Role-based Access**, and **multiple task views** like Kanban, Table, and Calendar.  
+It demonstrates real-world SaaS functionality built from scratch with modern web technologies.
+
+## 🚀 Live Demo
+
+🌐 **Live URL:** [https://issue-tracker-react-nextjs.vercel.app](https://issue-tracker-react-nextjs.vercel.app)  
+💻 **GitHub Repo:** [https://github.com/lnirjar/issue-tracker-nextjs](https://github.com/lnirjar/issue-tracker-nextjs)
+
+## 🛠️ Tech Stack
+
+**Frontend & Framework**
+
+- Next.js 15
+- React 19
+- Server Components + Client Components
+- React Query
+- React Hook Form
+- Tailwind CSS
+- Shadcn UI
+- TypeScript
+
+**Backend & Database**
+
+- MongoDB
+- Mongoose
+- Zod
+
+**Authentication & Storage**
+
+- Clerk
+- Cloudinary
+
+**Utilities**
+
+- Axios
+- date-fns
+- React Big Calendar
+- React Icons
+- Lucide Icons
+
+## ✨ Features
+
+### 🧩 Workspaces & Projects
+
+- Create and manage multiple workspaces
+- Upload workspace avatars via Cloudinary
+- Invite members using workspace invite links
+- Manage multiple projects within a workspace
+
+### 👥 Team Collaboration
+
+- Role-based permissions (**Admin / Member**)
+- Assign tasks to workspace members
+- Manage user roles within each workspace
+
+### ✅ Task Management
+
+- Create, update, and delete tasks
+- Assign members, due dates, and statuses
+- Task filtering and searching for quick access
+
+### 🗂️ Task Views
+
+- **Kanban Board** (drag-and-drop with `@hello-pangea/dnd`)
+- **Table View** (powered by `@tanstack/react-table`)
+- **Calendar View** (using `react-big-calendar`)
+
+### 📊 Productivity Features
+
+- Shimmer loading UI for smooth UX
+- Optimistic updates & background refetching with React Query
+- Analytics dashboard for workspace insights
+- Fully responsive modern UI using Tailwind + Shadcn
+
+### ⚙️ Architecture & Quality
+
+- Server Components for faster initial load
+- React Query for data fetching & caching
+- Zod + TypeScript for runtime + compile-time validation
+- Clean and modular file structure for scalability
+
+## 📁 Folder Structure (Simplified)
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+src/
+ ├─ app/
+ ├─ components/
+ ├─ hooks/
+ ├─ lib/
+ ├─ models/
+ └─ schemas/
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🔧 Environment Variables
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Create a `.env.local` file in the root directory and add the following:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
+CLERK_SECRET_KEY=
+NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
+NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
+SIGNING_SECRET=
 
-## Learn More
+MONGO_URI=
 
-To learn more about Next.js, take a look at the following resources:
+CLOUDINARY_CLOUD_NAME=
+CLOUDINARY_API_KEY=
+CLOUDINARY_API_SECRET=
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 💻 Installation & Setup
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```sh
+# 1️⃣ Clone the repository
+git clone https://github.com/lnirjar/issue-tracker-nextjs.git
 
-## Deploy on Vercel
+cd issue-tracker-nextjs
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+# 2️⃣ Install dependencies
+npm install
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+# 3️⃣ Add your environment variables
+# (see .env.local example above)
+
+# 4️⃣ Run the development server
+npm run dev
+```
+
+## 📦 Build
+
+To create an optimized production build:
+
+```sh
+npm run build
+npm start
+```
+
+## 🚀 Deployment
+
+This project is deployed on Vercel.
+
+## 🖼️ Screenshots
+
+TODO: Screenshots here
