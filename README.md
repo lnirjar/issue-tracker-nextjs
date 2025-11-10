@@ -11,6 +11,13 @@ It demonstrates real-world SaaS functionality built from scratch with modern web
 🌐 **Live URL:** [https://issue-tracker-react-nextjs.vercel.app](https://issue-tracker-react-nextjs.vercel.app)  
 💻 **GitHub Repo:** [https://github.com/lnirjar/issue-tracker-nextjs](https://github.com/lnirjar/issue-tracker-nextjs)
 
+### Demo User
+
+```
+Username: demo
+Password: a#b#c#123
+```
+
 ## 🛠️ Tech Stack
 
 **Frontend & Framework**
@@ -147,4 +154,58 @@ This project is deployed on Vercel.
 
 ## 🖼️ Screenshots
 
-TODO: Screenshots here
+### Dashboard
+
+![Dashboard](./screenshots/01-dashboard.png)
+
+### Workspace Switcher
+
+![Workspace Switcher](./screenshots/02-workspace-switcher.png)
+
+### Tasks - Table View
+
+![Tasks - Table View](./screenshots/03-tasks-table.png)
+
+### Tasks - Kanban View
+
+![Tasks - Kanban View](./screenshots/04-tasks-kanban.png)
+
+### Tasks - Calendar View
+
+![Tasks - Calendar View](./screenshots/05-tasks-calendar.png)
+
+### Task Details
+
+![Task Details](./screenshots/06-task-details.png)
+
+### Project
+
+![Project](./screenshots/07-project-tasks-table.png)
+
+### Filter Tasks
+
+![Filter Tasks](./screenshots/08-project-tasks-table-filter.png)
+
+### Workspace Members
+
+![Workspace Members](./screenshots/09-workspace-members.png)
+
+### Workspace Settings
+
+![Workspace Settings](./screenshots/10-workspace-settings.png)
+
+### Create Workspace Form
+
+![Create Workspace Form](./screenshots/11-create-workspace.png)
+
+### Create Project Form
+
+![Create Project Form](./screenshots/12-create-project.png)
+
+### Create Task Form
+
+![Create Task Form](./screenshots/13-create-task.png)
+
+### Edit Task Form
+
+![Edit Task Form](./screenshots/14-edit-task.png)
