@@ -33,6 +33,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <meta name="apple-mobile-web-app-title" content="Issue Tracker" />
+      </head>
       <body className={cn(geistSans.className, "antialiased min-h-screen")}>
         <ClerkProvider>
           <QueryProvider>
