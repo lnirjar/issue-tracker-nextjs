@@ -1,5 +1,6 @@
 import { Types } from "mongoose";
 import { notFound } from "next/navigation";
+import { Metadata } from "next";
 
 import { ProjectDetails } from "@/components/project-details";
 import { TaskViewSwitcher } from "@/components/task-view-switcher";
@@ -8,6 +9,10 @@ import { WorkspaceNotFoundAlert } from "@/components/workspace-not-found-alert";
 import { dbConnect } from "@/lib/db";
 import { getWorkspaceMember } from "@/lib/workspace";
 import { getProjectById } from "@/lib/project";
+
+export const metadata: Metadata = {
+  title: "Project",
+};
 
 export default async function ProjectPage({
   params,

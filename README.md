@@ -156,56 +156,56 @@ This project is deployed on Vercel.
 
 ### Dashboard
 
-![Dashboard](./screenshots/01-dashboard.png)
+![Dashboard](./public/screenshots/01-dashboard.png)
 
 ### Workspace Switcher
 
-![Workspace Switcher](./screenshots/02-workspace-switcher.png)
+![Workspace Switcher](./public/screenshots/02-workspace-switcher.png)
 
 ### Tasks - Table View
 
-![Tasks - Table View](./screenshots/03-tasks-table.png)
+![Tasks - Table View](./public/screenshots/03-tasks-table.png)
 
 ### Tasks - Kanban View
 
-![Tasks - Kanban View](./screenshots/04-tasks-kanban.png)
+![Tasks - Kanban View](./public/screenshots/04-tasks-kanban.png)
 
 ### Tasks - Calendar View
 
-![Tasks - Calendar View](./screenshots/05-tasks-calendar.png)
+![Tasks - Calendar View](./public/screenshots/05-tasks-calendar.png)
 
 ### Task Details
 
-![Task Details](./screenshots/06-task-details.png)
+![Task Details](./public/screenshots/06-task-details.png)
 
 ### Project
 
-![Project](./screenshots/07-project-tasks-table.png)
+![Project](./public/screenshots/07-project-tasks-table.png)
 
 ### Filter Tasks
 
-![Filter Tasks](./screenshots/08-project-tasks-table-filter.png)
+![Filter Tasks](./public/screenshots/08-project-tasks-table-filter.png)
 
 ### Workspace Members
 
-![Workspace Members](./screenshots/09-workspace-members.png)
+![Workspace Members](./public/screenshots/09-workspace-members.png)
 
 ### Workspace Settings
 
-![Workspace Settings](./screenshots/10-workspace-settings.png)
+![Workspace Settings](./public/screenshots/10-workspace-settings.png)
 
 ### Create Workspace Form
 
-![Create Workspace Form](./screenshots/11-create-workspace.png)
+![Create Workspace Form](./public/screenshots/11-create-workspace.png)
 
 ### Create Project Form
 
-![Create Project Form](./screenshots/12-create-project.png)
+![Create Project Form](./public/screenshots/12-create-project.png)
 
 ### Create Task Form
 
-![Create Task Form](./screenshots/13-create-task.png)
+![Create Task Form](./public/screenshots/13-create-task.png)
 
 ### Edit Task Form
 
-![Edit Task Form](./screenshots/14-edit-task.png)
+![Edit Task Form](./public/screenshots/14-edit-task.png)
