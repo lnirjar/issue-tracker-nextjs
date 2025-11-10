@@ -1,5 +1,6 @@
 import { Types } from "mongoose";
 import { notFound, redirect } from "next/navigation";
+import { Metadata } from "next";
 
 import "@/models";
 import { Workspace } from "@/models/workspace";
@@ -9,6 +10,10 @@ import { JoinWorkspaceFormCard } from "@/components/join-workspace-form-card";
 
 import { getWorkspaceMember } from "@/lib/workspace";
 import { dbConnect } from "@/lib/db";
+
+export const metadata: Metadata = {
+  title: "Invite",
+};
 
 export default async function JoinWorkspacePage({
   params,

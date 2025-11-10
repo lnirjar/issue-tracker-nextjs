@@ -1,5 +1,6 @@
 import { Types } from "mongoose";
 import { notFound } from "next/navigation";
+import { Metadata } from "next";
 
 import { WorkspaceDetails } from "@/components/workspace-details";
 import { InviteWorkspaceMembersCard } from "@/components/invite-workspace-members-card";
@@ -8,6 +9,10 @@ import { TasksChartPieDonutText } from "@/components/tasks-chart-pie-donut";
 
 import { dbConnect } from "@/lib/db";
 import { getWorkspaceMember } from "@/lib/workspace";
+
+export const metadata: Metadata = {
+  title: "Dashboard",
+};
 
 export default async function WorkspacePage({
   params,

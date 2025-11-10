@@ -1,9 +1,14 @@
 import { Types } from "mongoose";
 import { notFound } from "next/navigation";
+import { Metadata } from "next";
 
 import { TaskViewSwitcher } from "@/components/task-view-switcher";
 import { dbConnect } from "@/lib/db";
 import { getWorkspaceMember } from "@/lib/workspace";
+
+export const metadata: Metadata = {
+  title: "Tasks",
+};
 
 export default async function TasksPage({
   params,

@@ -1,4 +1,5 @@
 import { Types } from "mongoose";
+import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { TrashIcon } from "lucide-react";
 
@@ -13,6 +14,10 @@ import { DeleteTaskFormCard } from "@/components/delete-task-form-card";
 import { dbConnect } from "@/lib/db";
 import { getWorkspaceMember } from "@/lib/workspace";
 import { getTaskById } from "@/lib/task";
+
+export const metadata: Metadata = {
+  title: "Task",
+};
 
 export default async function TaskDetailsPage({
   params,

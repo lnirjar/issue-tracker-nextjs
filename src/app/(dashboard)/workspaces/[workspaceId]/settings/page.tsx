@@ -1,6 +1,7 @@
 import { Types } from "mongoose";
 import { TerminalIcon } from "lucide-react";
 import { notFound } from "next/navigation";
+import { Metadata } from "next";
 
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
@@ -11,6 +12,10 @@ import { DeleteWorkspaceFormCard } from "@/components/delete-workspace-form-card
 import { dbConnect } from "@/lib/db";
 import { getWorkspaceMember } from "@/lib/workspace";
 import { ADMIN, NOT_WORKSPACE_ADMIN_MESSAGE } from "@/lib/constants";
+
+export const metadata: Metadata = {
+  title: "Settings",
+};
 
 export default async function WorkspaceSettingsPage({
   params,

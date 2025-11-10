@@ -1,5 +1,6 @@
 import { Types } from "mongoose";
 import { notFound } from "next/navigation";
+import { Metadata } from "next";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
@@ -11,6 +12,10 @@ import { dbConnect } from "@/lib/db";
 import { getWorkspaceMember, getWorkspaceMembers } from "@/lib/workspace";
 import { getCurrentUser } from "@/lib/user";
 import { ADMIN } from "@/lib/constants";
+
+export const metadata: Metadata = {
+  title: "Members",
+};
 
 export default async function WorkspaceMembersPage({
   params,

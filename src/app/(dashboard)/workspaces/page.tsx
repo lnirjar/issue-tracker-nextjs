@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Metadata } from "next";
 import { format } from "date-fns";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -6,6 +7,10 @@ import { CreateWorkspaceFormCard } from "@/components/create-workspace-form-card
 
 import { getUserWorkspaces } from "@/lib/workspace";
 import { dbConnect } from "@/lib/db";
+
+export const metadata: Metadata = {
+  title: "Workspaces",
+};
 
 export default async function WorkspacesPage() {
   await dbConnect();
