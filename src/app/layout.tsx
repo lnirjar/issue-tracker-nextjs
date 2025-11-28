@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
+import { Analytics } from "@vercel/analytics/next";
 
 import { QueryProvider } from "@/components/query-provider";
 import { ClerkAuthListener } from "@/components/clerk-auth-listener";
@@ -44,6 +45,7 @@ export default function RootLayout({
             <Toaster />
           </QueryProvider>
         </ClerkProvider>
+        <Analytics />
       </body>
     </html>
   );
